@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free dietetics revision flashcards and quizzes for students and learners.">
+  <meta name="theme-color" content="#173f38">
+  <title>Dietetics Deck — Free dietetic revision</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Dietetics Deck home">
+      <span class="brand-mark">D</span>
+      <span><strong>Dietetics Deck</strong><small>Learn · Recall · Apply</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <button class="nav-link active" data-view="home">Home</button>
+      <button class="nav-link" data-view="cards">Flashcards</button>
+      <button class="nav-link" data-view="quiz">Quiz</button>
+      <button class="nav-link" data-view="progress">My progress</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home-view" class="view active">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">A free learning space for dietetics</p>
+          <h1>Build knowledge.<br><em>One card at a time.</em></h1>
+          <p class="hero-intro">Short, focused revision to help you strengthen nutrition knowledge, develop clinical reasoning and feel more confident with dietetic topics.</p>
+          <div class="hero-actions">
+            <button class="button primary" data-go="cards">Start revising <span aria-hidden="true">→</span></button>
+            <button class="button secondary" data-go="quiz">Try a quick quiz</button>
+          </div>
+          <p class="privacy-note"><span class="dot"></span> Free to use · No account required · Progress saved on this device</p>
+        </div>
+        <div class="hero-panel" aria-label="Revision summary">
+          <div class="panel-top"><span class="panel-label">YOUR REVISION SPACE</span><span class="status-pill">Ready when you are</span></div>
+          <div class="panel-number" id="hero-due">12</div>
+          <div class="panel-caption">sample cards to explore</div>
+          <div class="panel-rule"></div>
+          <div class="mini-row"><span>Topics included</span><strong>5</strong></div>
+          <div class="mini-row"><span>Learning style</span><strong>Active recall</strong></div>
+          <div class="panel-bottom">Start small. Return often.</div>
+        </div>
+        <div class="hero-orb orb-one"></div><div class="hero-orb orb-two"></div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div><p class="eyebrow">Explore the library</p><h2>Choose a topic</h2></div>
+          <button class="text-button" data-go="cards">View all cards →</button>
+        </div>
+        <div class="topic-grid" id="topic-grid"></div>
+      </section>
+
+      <section class="section-block how-section">
+        <div><p class="eyebrow">Make revision stick</p><h2>Small sessions.<br>Stronger recall.</h2></div>
+        <div class="how-grid">
+          <article><span class="step-number">01</span><h3>Recall</h3><p>Try to answer a question before revealing the explanation.</p></article>
+          <article><span class="step-number">02</span><h3>Reflect</h3><p>Rate how well you knew it, rather than just whether it felt familiar.</p></article>
+          <article><span class="step-number">03</span><h3>Return</h3><p>Cards you find difficult come back sooner in your revision schedule.</p></article>
+        </div>
+      </section>
+    </section>
+
+    <section id="cards-view" class="view">
+      <div class="page-heading"><p class="eyebrow">Active recall</p><h1>Flashcards</h1><p>Choose a topic, think of your answer, then reveal the explanation.</p></div>
+      <div class="toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Search cards…" aria-label="Search flashcards"></label>
+        <select id="category-filter" aria-label="Filter by topic"><option value="All">All topics</option></select>
+      </div>
+      <div class="card-meta"><span id="card-count">12 cards</span><span id="card-position">Card 1 of 12</span></div>
+      <article class="flashcard" id="flashcard">
+        <div class="flashcard-top"><span class="tag" id="card-category">Renal</span><span class="card-id" id="card-id">CARD 01</span></div>
+        <div class="flashcard-content">
+          <p class="eyebrow" id="card-kind">QUESTION</p>
+          <h2 id="card-question">Loading question…</h2>
+          <div id="card-answer" class="answer hidden"></div>
+        </div>
+        <div class="flashcard-footer"><span id="card-hint">Take a moment to think before revealing.</span><button id="reveal-btn" class="button primary">Reveal answer</button></div>
+      </article>
+      <div id="rating-area" class="rating-area hidden">
+        <p class="rating-prompt">How well did you know this?</p>
+        <div class="rating-buttons">
+          <button class="rating again" data-rating="again">Again <small>Review soon</small></button>
+          <button class="rating hard" data-rating="hard">Hard <small>Short interval</small></button>
+          <button class="rating good" data-rating="good">Good <small>Longer interval</small></button>
+          <button class="rating easy" data-rating="easy">Easy <small>Much longer</small></button>
+        </div>
+      </div>
+      <div class="card-navigation"><button class="text-button" id="previous-btn">← Previous</button><button class="text-button" id="next-btn">Next →</button></div>
+      <p class="local-note">Your ratings are saved in this browser on this device. This first version does not sync between devices.</p>
+    </section>
+
+    <section id="quiz-view" class="view">
+      <div class="page-heading"><p class="eyebrow">Check your understanding</p><h1>Quick quiz</h1><p>Five questions drawn from the sample revision library.</p></div>
+      <div class="quiz-shell">
+        <div class="quiz-top"><span class="tag">Mixed topics</span><span id="quiz-progress">Question 1 of 5</span></div>
+        <div class="quiz-progress"><span id="quiz-progress-bar"></span></div>
+        <div id="quiz-content"></div>
+      </div>
+    </section>
+
+    <section id="progress-view" class="view">
+      <div class="page-heading"><p class="eyebrow">Your learning space</p><h1>My progress</h1><p>A simple overview of your revision on this device.</p></div>
+      <div class="stats-grid">
+        <article class="stat-card"><span>Cards reviewed</span><strong id="stat-reviewed">0</strong><small>Cards you have rated</small></article>
+        <article class="stat-card"><span>Confident cards</span><strong id="stat-confident">0</strong><small>Rated Good or Easy</small></article>
+        <article class="stat-card"><span>To revisit</span><strong id="stat-revisit">0</strong><small>Rated Again or Hard</small></article>
+      </div>
+      <div class="progress-panel"><div class="section-heading"><div><p class="eyebrow">By topic</p><h2>Revision overview</h2></div></div><div id="topic-progress"></div></div>
+      <button id="reset-progress" class="button secondary reset-button">Reset my progress</button>
+      <p class="local-note">Progress is stored locally in your browser. Clearing browser data will remove it.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="footer-brand"><span class="brand-mark">D</span><strong>Dietetics Deck</strong></div><p>Independent educational revision resource. Not a substitute for clinical guidance, local policies or professional judgement.</p><span>First version · Free learning resource</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
