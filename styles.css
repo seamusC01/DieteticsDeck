@@ -26,3 +26,21 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .topic-card[data-topic="Nutrition"]{background:#b7e8a7}
 .topic-card[data-topic="Nutrition support"]{background:#b7e8a7}
 @media(max-width:420px){.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.topic-card{min-height:92px;border-radius:25px;padding:14px}.topic-card strong{font-size:18px}}
+
+/* Learning-level selector */
+.level-section{padding-top:8px;padding-bottom:25px}
+.level-toggle-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:20px}
+.level-toggle-row h2{font-size:clamp(25px,3vw,32px);line-height:1.12;letter-spacing:-.04em;color:var(--forest);margin:0}
+.level-intro{font-size:13px;color:var(--muted);margin:9px 0 0;max-width:560px}
+.level-toggle{flex-shrink:0;border:1px solid var(--line);background:white;color:var(--forest);border-radius:9px;padding:10px 13px;font-size:12px;font-weight:700}
+.level-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.level-options.collapsed{display:none}
+.level-option{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;border:1px solid var(--line);border-radius:15px;padding:18px;background:white;color:var(--ink);min-height:175px;transition:.18s}
+.level-option:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.level-option.selected{border:2px solid var(--forest);padding:17px;background:#f0f5f0}
+.level-number{font-size:10px;letter-spacing:.12em;font-weight:800;color:#82958a}
+.level-option strong{font-size:16px;color:var(--forest)}
+.level-option>span:not(.level-number){font-size:12px;line-height:1.5;color:var(--muted)}
+.level-option small{margin-top:auto;font-size:10px;font-weight:750;color:#688474}
+.level-selection-note{font-size:11px;color:#718078;margin:12px 0 0}
+@media(max-width:760px){.level-section{padding:5px 23px 22px}.level-options{grid-template-columns:1fr}.level-option{min-height:0}.level-toggle-row{align-items:flex-start}.level-toggle{font-size:11px;padding:9px}}
