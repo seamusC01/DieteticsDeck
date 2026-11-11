@@ -44,3 +44,15 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .level-option small{margin-top:auto;font-size:10px;font-weight:750;color:#688474}
 .level-selection-note{font-size:11px;color:#718078;margin:12px 0 0}
 @media(max-width:760px){.level-section{padding:5px 23px 22px}.level-options{grid-template-columns:1fr}.level-option{min-height:0}.level-toggle-row{align-items:flex-start}.level-toggle{font-size:11px;padding:9px}}
+
+/* Compact topic-style learning level buttons */
+.level-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;max-width:900px}
+.level-option{min-width:0;min-height:105px;height:105px;justify-content:center;align-items:center;text-align:center;gap:0;border:2px solid transparent;border-radius:28px;padding:12px;background:#b7e8a7;box-shadow:none}
+.level-option:nth-child(2){background:#ff9090}
+.level-option:nth-child(3){background:#91a5ff}
+.level-option .level-number,.level-option>span:not(.level-number),.level-option small{display:none}
+.level-option strong{color:#080808;font-size:clamp(13px,1.6vw,18px);font-weight:800;line-height:1.2;letter-spacing:-.02em}
+.level-option.selected{border:3px solid var(--forest);padding:11px;box-shadow:0 0 0 2px rgba(255,255,255,.8) inset}
+.level-option:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(20,35,25,.09);filter:saturate(1.04)}
+@media(max-width:760px){.level-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.level-option{height:90px;min-height:90px;padding:8px;border-radius:22px}.level-option.selected{padding:7px}.level-option strong{font-size:12px}.level-section{padding-left:23px;padding-right:23px}}
+@media(max-width:420px){.level-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.level-option{height:82px;min-height:82px;border-radius:19px;padding:5px}.level-option.selected{padding:4px}.level-option strong{font-size:11px}}
