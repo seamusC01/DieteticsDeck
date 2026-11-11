@@ -23,7 +23,7 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .topic-card[data-topic="Liver"]{background:#b7e8a7}
 .topic-card[data-topic="Biochemistry"]{background:#ff9090}
 .topic-card[data-topic="Medicines"]{background:#91a5ff}
-.topic-card[data-topic="Nutrition"]{background:#b7e8a7}
+.topic-card[data-topic="Nutrition"]{background:#ffb36b}
 .topic-card[data-topic="Nutrition support"]{background:#b7e8a7}
 @media(max-width:420px){.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.topic-card{min-height:92px;border-radius:25px;padding:14px}.topic-card strong{font-size:18px}}
 
@@ -52,7 +52,7 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .level-option:nth-child(3){background:#91a5ff}
 .level-option .level-number,.level-option>span:not(.level-number),.level-option small{display:none}
 .level-option strong{color:#080808;font-size:clamp(13px,1.6vw,18px);font-weight:800;line-height:1.2;letter-spacing:-.02em}
-.level-option.selected{border:3px solid var(--forest);padding:11px;box-shadow:0 0 0 2px rgba(255,255,255,.8) inset}
+.level-option.selected{border:3px solid var(--forest);padding:11px;background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.8) inset}
 .level-option:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(20,35,25,.09);filter:saturate(1.04)}
-@media(max-width:760px){.level-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.level-option{height:90px;min-height:90px;padding:8px;border-radius:22px}.level-option.selected{padding:7px}.level-option strong{font-size:12px}.level-section{padding-left:23px;padding-right:23px}}
-@media(max-width:420px){.level-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.level-option{height:82px;min-height:82px;border-radius:19px;padding:5px}.level-option.selected{padding:4px}.level-option strong{font-size:11px}}
+@media(max-width:760px){.level-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.level-option{height:90px;min-height:90px;padding:8px;border-radius:22px}.level-option.selected{padding:7px;background:#fff}.level-option strong{font-size:12px}.level-section{padding-left:23px;padding-right:23px}}
+@media(max-width:420px){.level-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.level-option{height:82px;min-height:82px;border-radius:19px;padding:5px}.level-option.selected{padding:4px;background:#fff}.level-option strong{font-size:11px}}
