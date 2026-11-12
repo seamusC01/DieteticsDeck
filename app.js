@@ -64,4 +64,4 @@ function renderProgress(){const entries=Object.values(progress),reviewed=entries
 $("reset-progress").addEventListener("click",()=>{if(confirm("Reset all revision progress saved in this browser?")){progress={};save();renderProgress();}});
 $("level-toggle").addEventListener("click",()=>{const panel=$("level-options"),button=$("level-toggle"),expanded=button.getAttribute("aria-expanded")==="true";button.setAttribute("aria-expanded",String(!expanded));panel.classList.toggle("collapsed",expanded);button.innerHTML=expanded?'Show levels <span aria-hidden="true">⌄</span>':'Hide levels <span aria-hidden="true">⌃</span>';});
 document.querySelectorAll("[data-level]").forEach(button=>button.addEventListener("click",()=>{selectedLevel=button.dataset.level;document.querySelectorAll("[data-level]").forEach(option=>option.classList.toggle("selected",option===button));const label=quizLevels[selectedLevel].label;$("level-selection-note").textContent="Selected level: "+label+". Your flashcards and quiz questions will match this level.";filterCards();startQuiz();}));
-buildTopics();renderCard();startQuiz();
+buildTopics();filterCards();startQuiz();
