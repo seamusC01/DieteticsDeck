@@ -61,3 +61,6 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .topic-card[data-topic="Diabetes"]{background:#cbb8f2}
 .topic-card[data-topic="Liver"]{background:#b7e8a7}
 .topic-card[data-topic="Digestive tract"]{background:#ffb7c5}
+
+/* Liver topic: soft light blue */
+.topic-card[data-topic="Liver"]{background:#b9ddf5}
