@@ -1,5 +1,5 @@
 const cards = [
-{id:"BIO04",level:"placement",topic:"Biochemistry",q:"Which nutrients are particularly important in refeeding syndrome?",a:"Phosphate, potassium and magnesium are particularly important to monitor because their levels can fall during refeeding. Thiamine (vitamin B1) is also important, and vitamin supplementation should follow the relevant clinical guidance.",reference:"NICE CG32",referenceUrl:"https://www.nice.org.uk/guidance/cg32",referenceNote:"Recommendation 1.4.8 covers the management of people at high risk of refeeding problems."},
+{id:"BIO04",level:"placement",topic:"Biochemistry",q:"Which nutrients are particularly important in refeeding syndrome?",a:"Phosphate, potassium and magnesium are particularly important to monitor because their levels can fall during refeeding. Thiamine (vitamin B1) is also important, and vitamin supplementation should follow the relevant clinical guidance.",hint:"Think about the three key electrolytes and an important B vitamin.",reference:"NICE CG32",referenceUrl:"https://www.nice.org.uk/guidance/cg32",referenceNote:"Recommendation 1.4.8 covers the management of people at high risk of refeeding problems."},
 {id:"MED01",level:"fresh",topic:"Medicines",q:"What class of medicine is omeprazole?",a:"Omeprazole is a proton pump inhibitor (PPI). It reduces gastric acid secretion. The reason for prescribing it and any implications for an individual should be considered in the wider clinical context.",hint:"Think about medicines used to reduce stomach acid."},
 {id:"MED02",level:"placement",topic:"Medicines",q:"What is the main action of metformin?",a:"Metformin is a biguanide used in the management of type 2 diabetes. It primarily reduces hepatic glucose production and improves insulin sensitivity. Prescribing decisions depend on individual factors, including renal function.",hint:"Think about glucose production by the liver."},
 {id:"MED03",level:"fresh",topic:"Medicines",q:"What type of medicine is furosemide?",a:"Furosemide is a loop diuretic. It increases sodium and water excretion by acting in the loop of Henle. Monitoring may include fluid status and electrolytes, according to the clinical plan.",hint:"Think about medicines that increase urine output."},
@@ -52,7 +52,44 @@ document.querySelectorAll("[data-home]").forEach(b=>b.addEventListener("click",e
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
 function buildTopics(){const topics=[...new Set(cards.map(c=>c.topic))];$("topic-grid").innerHTML=topics.map(t=>`<button class="topic-card" data-topic="${t}"><span class="topic-icon">${icons[t]||"•"}</span><strong>${t}</strong><span>${descriptions[t]} · ${cards.filter(c=>c.topic===t).length} cards</span></button>`).join("");$("category-filter").innerHTML='<option value="All">All topics</option>'+topics.map(t=>`<option>${t}</option>`).join("");document.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>{$("category-filter").value=b.dataset.topic;filterCards();showView("cards");}));}
 function filterCards(){const term=$("search-input").value.toLowerCase(),topic=$("category-filter").value;currentCards=cards.filter(c=>c.level===selectedLevel&&(topic==="All"||c.topic===topic)&&(`${c.q} ${c.a} ${c.topic}`).toLowerCase().includes(term));currentIndex=0;answerVisible=false;renderCard();}
-function renderCard(){const c=currentCards[currentIndex];if(!c){$("flashcard").classList.add("hidden");$("rating-area").classList.add("hidden");$("card-count").textContent="No matching cards";$("card-position").textContent="Try another search or topic.";return;}$("flashcard").classList.remove("hidden");$("card-count").textContent=`${currentCards.length} matching cards`;$("card-position").textContent=`Card ${currentIndex+1} of ${currentCards.length}`;$("card-category").textContent=c.topic;$("card-id").textContent="CARD "+c.id;$("card-question").textContent=c.q;$("card-answer").innerHTML=`<p>${c.a}</p>`;$("card-kind").textContent=answerVisible?"ANSWER":"QUESTION";$("card-answer").classList.toggle("hidden",!answerVisible);$("reveal-btn").classList.toggle("hidden",answerVisible);$("rating-area").classList.toggle("hidden",!answerVisible);$("card-hint").textContent=answerVisible?"Rate your recall to schedule this card.":(c.hint||"Take a moment to think before revealing.");}
+function renderCard(){
+  const c=currentCards[currentIndex];
+
+  if(!c){
+    $("flashcard").classList.add("hidden");
+    $("rating-area").classList.add("hidden");
+    $("card-count").textContent="No matching cards";
+    $("card-position").textContent="Try another search or topic.";
+    return;
+  }
+
+  $("flashcard").classList.remove("hidden");
+  $("card-count").textContent=`${currentCards.length} matching cards`;
+  $("card-position").textContent=`Card ${currentIndex+1} of ${currentCards.length}`;
+  $("card-category").textContent=c.topic;
+  $("card-id").textContent="CARD "+c.id;
+  $("card-question").textContent=c.q;
+
+  const referenceHtml = c.reference ? `
+    <details class="card-reference">
+      <summary>Reference: ${c.reference}</summary>
+      <div class="reference-details">
+        <p>${c.referenceNote || ""}</p>
+        ${c.referenceUrl ? `<a href="${c.referenceUrl}" target="_blank" rel="noopener noreferrer">Read the guideline ↗</a>` : ""}
+      </div>
+    </details>
+  ` : "";
+
+  $("card-answer").innerHTML=`<p>${c.a}</p>${referenceHtml}`;
+
+  $("card-kind").textContent=answerVisible?"ANSWER":"QUESTION";
+  $("card-answer").classList.toggle("hidden",!answerVisible);
+  $("reveal-btn").classList.toggle("hidden",answerVisible);
+  $("rating-area").classList.toggle("hidden",!answerVisible);
+  $("card-hint").textContent=answerVisible
+    ?"Rate your recall to schedule this card."
+    :(c.hint||"Take a moment to think before revealing.");
+}
 $("search-input").addEventListener("input",filterCards);$("category-filter").addEventListener("change",filterCards);
 $("reveal-btn").addEventListener("click",()=>{answerVisible=true;renderCard();});
 $("previous-btn").addEventListener("click",()=>{if(currentCards.length){currentIndex=(currentIndex-1+currentCards.length)%currentCards.length;answerVisible=false;renderCard();}});
