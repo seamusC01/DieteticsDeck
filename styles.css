@@ -64,3 +64,40 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 
 /* Liver topic: soft light blue */
 .topic-card[data-topic="Liver"]{background:#b9ddf5}
+
+
+.card-reference {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #dce7df;
+  font-size: 12px;
+}
+
+.card-reference summary {
+  cursor: pointer;
+  color: #397761;
+  font-weight: 700;
+  padding: 7px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.card-reference summary:hover {
+  background: #edf5ef;
+}
+
+.reference-details {
+  padding: 8px 7px;
+  color: #63736b;
+  line-height: 1.6;
+}
+
+.reference-details p {
+  margin: 0 0 8px;
+}
+
+.reference-details a {
+  color: #397761;
+  font-weight: 700;
+  text-decoration: underline;
+}
