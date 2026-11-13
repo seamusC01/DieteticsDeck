@@ -1,4 +1,4 @@
-# Dietetics Deck — first version
+# A Deck of Dietetics — first version
 
 A free, public, static revision website built with HTML, CSS and vanilla JavaScript. No account or server is required.
 
