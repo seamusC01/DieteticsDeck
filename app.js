@@ -60,12 +60,12 @@ function filterCards(){
   const now=Date.now();
   const priority=c=>{
     const record=progress[c.id];
-    if(!record)return 2;
-    if(record.rating==="again")return 0;
-    if(record.rating==="hard")return 1;
-    if(record.due&&new Date(record.due).getTime()<=now)return 2;
-    if(record.rating==="good")return 3;
-    return 4;
+    if(record?.rating==="again")return 0;
+    if(record?.rating==="hard")return 1;
+    if(record?.due&&new Date(record.due).getTime()<=now)return 2;
+    if(!record)return 3;
+    if(record.rating==="good")return 4;
+    return 5;
   };
   currentCards.sort((a,b)=>{
     const difference=priority(a)-priority(b);
