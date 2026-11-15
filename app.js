@@ -92,13 +92,13 @@ function renderSignposting(){
     <a href="${r.url}" target="_blank" rel="noopener noreferrer">Open patient information <span aria-hidden="true">↗</span></a>
   </article>`).join(""):'<div class="resource-empty">No patient information matches that search. Try another word or topic.</div>';
 }
-$("signposting-search").addEventListener("input",renderSignposting);
-$("signposting-category").addEventListener("change",renderSignposting);
-
 const storageKey="dietetics-deck-progress-v1";
 let progress=JSON.parse(localStorage.getItem(storageKey)||"{}");
 let currentCards=[...cards],currentIndex=0,answerVisible=false,quizOrder=[],quizIndex=0,quizScore=0,quizAnswered=false,selectedLevel="fresh",dueOnly=false;
 const $=id=>document.getElementById(id);
+$("signposting-search").addEventListener("input",renderSignposting);
+$("signposting-category").addEventListener("change",renderSignposting);
+
 function save(){localStorage.setItem(storageKey,JSON.stringify(progress));}
 function renderResources(){
   const term=$("resource-search").value.trim().toLowerCase();
