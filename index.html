@@ -21,6 +21,7 @@
       <button class="nav-link" data-view="quiz">Quiz</button>
       <button class="nav-link" data-view="progress">My progress</button>
       <button class="nav-link" data-view="resources">Useful resources</button>
+      <button class="nav-link" data-view="signposting">Patient signposting</button>
     </nav>
   </header>
 
@@ -145,6 +146,28 @@
       <p class="resource-count" id="resource-count" aria-live="polite"></p>
       <div class="resource-grid" id="resource-grid"></div>
       <p class="resource-disclaimer">Resource links are provided for learning and signposting. Access arrangements can change, and some content may require membership, an NHS or university login, library access or purchase. This page does not replace local clinical guidance or professional judgement.</p>
+    <section id="signposting-view" class="view">
+      <div class="page-heading"><p class="eyebrow">Information to share with patients</p><h1>Patient signposting</h1><p>Trusted, patient-friendly information that may help people find out more and access support.</p></div>
+      <div class="resource-intro">
+        <p>Use these links as starting points for conversations and shared decision-making. Check that the information is suitable, accessible and relevant to the person's needs, and follow local pathways where appropriate.</p>
+      </div>
+      <div class="resource-toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="signposting-search" type="search" placeholder="Search patient information…" aria-label="Search patient signposting"></label>
+        <select id="signposting-category" aria-label="Filter patient information by topic">
+          <option value="All">All topics</option>
+          <option>Healthy eating</option>
+          <option>Diabetes</option>
+          <option>Kidney health</option>
+          <option>Digestive health</option>
+          <option>Heart and cholesterol</option>
+          <option>Cancer and nutrition</option>
+          <option>Food and practical support</option>
+        </select>
+      </div>
+      <p class="resource-count" id="signposting-count" aria-live="polite"></p>
+      <div class="resource-grid" id="signposting-grid"></div>
+      <p class="resource-disclaimer">Signposting is not a personalised dietetic treatment plan. Check the date, suitability and accessibility of information before sharing it. For individual clinical advice, use the person's care team and local referral pathways. In an emergency, follow local emergency procedures.</p>
+    </section>
     </section>
   </main>
 
