@@ -52,9 +52,36 @@ function save(){localStorage.setItem(storageKey,JSON.stringify(progress));}
 function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===name+"-view"));document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.view===name));if(name==="progress")renderProgress();if(name==="cards")renderCard();}
 document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.querySelectorAll("[data-home]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showView("home");window.scrollTo({top:0,behavior:"smooth"});}));
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.go==="cards")startRevision();else showView(b.dataset.go);}));
 function buildTopics(){const topics=[...new Set(cards.map(c=>c.topic))];$("hero-due").textContent=cards.length;$("hero-topics").textContent=topics.length;$("topic-grid").innerHTML=topics.map(t=>`<button class="topic-card" data-topic="${t}"><span class="topic-icon">${icons[t]||"•"}</span><strong>${t}</strong><span>${descriptions[t]} · ${cards.filter(c=>c.topic===t).length} cards</span></button>`).join("");$("category-filter").innerHTML='<option value="All">All topics</option>'+topics.map(t=>`<option>${t}</option>`).join("");document.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>{$("category-filter").value=b.dataset.topic;filterCards();showView("cards");}));}
-function filterCards(){const term=$("search-input").value.toLowerCase(),topic=$("category-filter").value;currentCards=cards.filter(c=>c.level===selectedLevel&&(topic==="All"||c.topic===topic)&&(`${c.q} ${c.a} ${c.topic}`).toLowerCase().includes(term));currentIndex=0;answerVisible=false;renderCard();}
+function filterCards(){
+  const term=$("search-input").value.toLowerCase(),topic=$("category-filter").value;
+  currentCards=cards.filter(c=>c.level===selectedLevel&&(topic==="All"||c.topic===topic)&&(`${c.q} ${c.a} ${c.topic}`).toLowerCase().includes(term));
+  const now=Date.now();
+  const priority=c=>{
+    const record=progress[c.id];
+    if(!record)return 2;
+    if(record.rating==="again")return 0;
+    if(record.rating==="hard")return 1;
+    if(record.due&&new Date(record.due).getTime()<=now)return 2;
+    if(record.rating==="good")return 3;
+    return 4;
+  };
+  currentCards.sort((a,b)=>{
+    const difference=priority(a)-priority(b);
+    if(difference!==0)return difference;
+    const dueA=progress[a.id]?.due?new Date(progress[a.id].due).getTime():0;
+    const dueB=progress[b.id]?.due?new Date(progress[b.id].due).getTime():0;
+    return dueA-dueB;
+  });
+  currentIndex=0;answerVisible=false;renderCard();
+}
+function startRevision(){
+  $("category-filter").value="All";
+  $("search-input").value="";
+  filterCards();
+  showView("cards");
+}
 function renderCard(){
   const c=currentCards[currentIndex];
 
