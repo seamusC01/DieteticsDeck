@@ -123,3 +123,7 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .resource-disclaimer{max-width:900px;margin:0 auto 55px;padding:0 max(8vw,26px);font-size:10px;line-height:1.6;color:#89968f}
 .resource-empty{grid-column:1/-1;padding:30px;text-align:center;background:white;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13px}
 @media(max-width:760px){.resource-toolbar{padding:10px 23px 8px;flex-direction:column}.resource-toolbar select{min-height:42px}.resource-intro{padding-left:23px;padding-right:23px}.resource-grid{grid-template-columns:1fr;padding-left:23px;padding-right:23px}.resource-count{padding-left:23px;padding-right:23px}.resource-disclaimer{padding-left:23px;padding-right:23px}}
+
+
+/* Patient signposting uses the same searchable resource-card layout */
+#signposting-view .resource-intro{padding-top:2px}
