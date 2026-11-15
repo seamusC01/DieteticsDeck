@@ -101,3 +101,25 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
   font-weight: 700;
   text-decoration: underline;
 }
+
+
+/* Useful resources library */
+.resource-intro{max-width:900px;margin:0 auto;padding:0 max(8vw,26px) 8px;color:var(--muted);font-size:13px}
+.resource-toolbar{display:flex;gap:12px;max-width:1100px;margin:0 auto;padding:12px max(8vw,26px) 8px}
+.resource-toolbar .search-box{min-width:180px}
+.resource-toolbar select{border:1px solid var(--line);border-radius:9px;padding:0 13px;background:white;color:var(--ink);font-size:12px;min-width:220px}
+.resource-count{max-width:1100px;margin:8px auto 12px;padding:0 max(8vw,26px);font-size:10px;color:#819087}
+.resource-grid{max-width:1100px;margin:0 auto;padding:0 max(8vw,26px) 20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.resource-card{background:white;border:1px solid var(--line);border-radius:14px;padding:19px;display:flex;flex-direction:column;min-height:230px}
+.resource-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.resource-category{font-size:9px;letter-spacing:.07em;text-transform:uppercase;font-weight:800;color:#628071;background:var(--mint);padding:5px 8px;border-radius:20px}
+.resource-arrow{color:#91a59a;font-size:16px}
+.resource-card h2{font-size:17px;line-height:1.25;letter-spacing:-.02em;color:var(--forest);margin:14px 0 8px}
+.resource-card>p{font-size:12px;color:var(--muted);margin:0 0 14px}
+.resource-access{margin-top:auto;padding:10px 11px;background:#f5f7f4;border-radius:8px;font-size:10px;color:#687970}
+.resource-access strong{color:#425c4d}
+.resource-card>a{align-self:flex-start;margin-top:13px;color:#397761;font-size:11px;font-weight:800;text-decoration:none}
+.resource-card>a:hover{text-decoration:underline}
+.resource-disclaimer{max-width:900px;margin:0 auto 55px;padding:0 max(8vw,26px);font-size:10px;line-height:1.6;color:#89968f}
+.resource-empty{grid-column:1/-1;padding:30px;text-align:center;background:white;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13px}
+@media(max-width:760px){.resource-toolbar{padding:10px 23px 8px;flex-direction:column}.resource-toolbar select{min-height:42px}.resource-intro{padding-left:23px;padding-right:23px}.resource-grid{grid-template-columns:1fr;padding-left:23px;padding-right:23px}.resource-count{padding-left:23px;padding-right:23px}.resource-disclaimer{padding-left:23px;padding-right:23px}}
