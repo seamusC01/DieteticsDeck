@@ -61,6 +61,40 @@ const resources = [
   {name:"Cochrane Library",category:"Textbooks & learning",description:"A source of systematic reviews and evidence to support critical appraisal and evidence-based practice.",access:"Some content is freely available; full-text access may require an institutional subscription",url:"https://www.cochranelibrary.com/"}
 ];
 
+const signpostingResources = [
+  {name:"NHS — The Eatwell Guide",category:"Healthy eating",description:"A simple overview of the main food groups and how to achieve a balanced diet over time.",access:"Free patient information",url:"https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/the-eatwell-guide/"},
+  {name:"British Nutrition Foundation — Healthy eating",category:"Healthy eating",description:"Practical information about food, nutrients and healthy eating, including resources that can support conversations about diet.",access:"Free public information",url:"https://www.nutrition.org.uk/"},
+  {name:"Diabetes UK — Food and diabetes",category:"Diabetes",description:"Patient information about food choices, meal planning and living with diabetes. Encourage people to use advice relevant to their type of diabetes and care plan.",access:"Free patient information",url:"https://www.diabetes.org.uk/guide-to-diabetes/enjoy-food"},
+  {name:"Diabetes UK — Know your risk and support",category:"Diabetes",description:"Information and support for people living with or at risk of diabetes, including ways to find further help.",access:"Free patient information",url:"https://www.diabetes.org.uk/"},
+  {name:"Kidney Care UK",category:"Kidney health",description:"Patient-friendly information and support for people affected by kidney disease, including diet, treatment and living well.",access:"Free patient information and support",url:"https://kidneycareuk.org/"},
+  {name:"National Kidney Federation",category:"Kidney health",description:"Information and support for people with kidney disease, including resources about renal diets and kidney health.",access:"Free patient information",url:"https://www.kidney.org.uk/"},
+  {name:"Coeliac UK",category:"Digestive health",description:"Reliable information about coeliac disease, gluten-free living, food choices and support after diagnosis.",access:"Some information is free; membership unlocks additional services",url:"https://www.coeliac.org.uk/"},
+  {name:"Crohn's & Colitis UK",category:"Digestive health",description:"Information and support for people living with Crohn's disease or ulcerative colitis, including food, symptoms and day-to-day management.",access:"Free information; membership and support options available",url:"https://crohnsandcolitis.org.uk/"},
+  {name:"NHS — Irritable bowel syndrome (IBS)",category:"Digestive health",description:"An accessible overview of IBS symptoms, diagnosis and treatment options, with guidance on when to seek further help.",access:"Free patient information",url:"https://www.nhs.uk/conditions/irritable-bowel-syndrome-ibs/"},
+  {name:"British Heart Foundation",category:"Heart and cholesterol",description:"Patient information about heart health, cholesterol, food and lifestyle, including practical guidance for making changes.",access:"Free patient information",url:"https://www.bhf.org.uk/informationsupport"},
+  {name:"British Liver Trust",category:"Heart and cholesterol",description:"Information and support for people affected by liver conditions, including resources on nutrition and looking after liver health.",access:"Free patient information",url:"https://britishlivertrust.org.uk/"},
+  {name:"Macmillan Cancer Support — Eating problems and cancer",category:"Cancer and nutrition",description:"Practical information about eating and nutrition-related difficulties during and after cancer treatment, alongside wider support.",access:"Free patient information and support",url:"https://www.macmillan.org.uk/cancer-information-and-support/impacts-of-cancer/eating-problems"},
+  {name:"NHS — Help with food costs",category:"Food and practical support",description:"Information about support with food costs and accessing help, which may be useful when discussing food insecurity or financial barriers.",access:"Free information",url:"https://www.nhs.uk/live-well/healthy-body/"},
+  {name:"Trussell",category:"Food and practical support",description:"Information about food banks and practical support for people who are struggling to afford essentials. Check local availability and referral arrangements.",access:"Free information; local access arrangements vary",url:"https://www.trussell.org.uk/"},
+  {name:"NHS 111 Wales",category:"Food and practical support",description:"A route to health advice and local NHS services in Wales. Use the appropriate local service and pathway for the person's location.",access:"Free NHS service in Wales",url:"https://111.wales.nhs.uk/"}
+];
+
+function renderSignposting(){
+  const term=$("signposting-search").value.trim().toLowerCase();
+  const category=$("signposting-category").value;
+  const matches=signpostingResources.filter(r=>(category==="All"||r.category===category)&&(`${r.name} ${r.category} ${r.description} ${r.access}`).toLowerCase().includes(term));
+  $("signposting-count").textContent=`${matches.length} resource${matches.length===1?"":"s"}`;
+  $("signposting-grid").innerHTML=matches.length?matches.map(r=>`<article class="resource-card">
+    <div class="resource-card-top"><span class="resource-category">${r.category}</span><span class="resource-arrow" aria-hidden="true">↗</span></div>
+    <h2>${r.name}</h2>
+    <p>${r.description}</p>
+    <div class="resource-access"><strong>Access:</strong> ${r.access}</div>
+    <a href="${r.url}" target="_blank" rel="noopener noreferrer">Open patient information <span aria-hidden="true">↗</span></a>
+  </article>`).join(""):'<div class="resource-empty">No patient information matches that search. Try another word or topic.</div>';
+}
+$("signposting-search").addEventListener("input",renderSignposting);
+$("signposting-category").addEventListener("change",renderSignposting);
+
 const storageKey="dietetics-deck-progress-v1";
 let progress=JSON.parse(localStorage.getItem(storageKey)||"{}");
 let currentCards=[...cards],currentIndex=0,answerVisible=false,quizOrder=[],quizIndex=0,quizScore=0,quizAnswered=false,selectedLevel="fresh",dueOnly=false;
@@ -81,7 +115,7 @@ function renderResources(){
 }
 $("resource-search").addEventListener("input",renderResources);
 $("resource-category").addEventListener("change",renderResources);
-function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===name+"-view"));document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.view===name));if(name==="progress")renderProgress();if(name==="cards")renderCard();}
+function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===name+"-view"));document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.view===name));if(name==="progress")renderProgress();if(name==="cards")renderCard();if(name==="signposting")renderSignposting();}
 document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.querySelectorAll("[data-home]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showView("home");window.scrollTo({top:0,behavior:"smooth"});}));
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.go==="cards")startRevision();else showView(b.dataset.go);}));
@@ -178,4 +212,4 @@ function renderProgress(){const entries=Object.values(progress),reviewed=entries
 $("reset-progress").addEventListener("click",()=>{if(confirm("Reset all revision progress saved in this browser?")){progress={};save();renderProgress();}});
 $("level-toggle").addEventListener("click",()=>{const panel=$("level-options"),button=$("level-toggle"),expanded=button.getAttribute("aria-expanded")==="true";button.setAttribute("aria-expanded",String(!expanded));panel.classList.toggle("collapsed",expanded);button.innerHTML=expanded?'Show levels <span aria-hidden="true">⌄</span>':'Hide levels <span aria-hidden="true">⌃</span>';});
 document.querySelectorAll("[data-level]").forEach(button=>button.addEventListener("click",()=>{selectedLevel=button.dataset.level;document.querySelectorAll("[data-level]").forEach(option=>option.classList.toggle("selected",option===button));const label=quizLevels[selectedLevel].label;$("level-selection-note").textContent="Selected level: "+label+". Your flashcards and quiz questions will match this level.";filterCards();startQuiz();}));
-buildTopics();filterCards();startQuiz();renderResources();
+buildTopics();filterCards();startQuiz();renderResources();renderSignposting();
