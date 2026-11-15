@@ -127,3 +127,10 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 
 /* Patient signposting uses the same searchable resource-card layout */
 #signposting-view .resource-intro{padding-top:2px}
+
+
+/* Flashcard hints are revealed only when requested */
+.hint-control{display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0}
+.hint-control .button{font-size:10px;padding:8px 12px}
+.card-hint{margin:0;color:#718078;font-size:11px;line-height:1.5;max-width:460px}
+@media(max-width:520px){.flashcard-footer{align-items:flex-end}.hint-control{max-width:65%}.flashcard-footer>.button{flex-shrink:0}}
