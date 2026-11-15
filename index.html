@@ -20,6 +20,7 @@
       <button class="nav-link" data-view="cards">Flashcards</button>
       <button class="nav-link" data-view="quiz">Quiz</button>
       <button class="nav-link" data-view="progress">My progress</button>
+      <button class="nav-link" data-view="resources">Useful resources</button>
     </nav>
   </header>
 
@@ -124,6 +125,26 @@
       <div class="progress-panel"><div class="section-heading"><div><p class="eyebrow">By topic</p><h2>Revision overview</h2></div></div><div id="topic-progress"></div></div>
       <button id="reset-progress" class="button secondary reset-button">Reset my progress</button>
       <p class="local-note">Progress is stored locally in your browser. Clearing browser data will remove it.</p>
+    </section>
+    <section id="resources-view" class="view">
+      <div class="page-heading"><p class="eyebrow">A hand-picked library</p><h1>Useful resources</h1><p>Trusted starting points for dietetics study, placement preparation and professional learning.</p></div>
+      <div class="resource-intro">
+        <p>Use these links to explore guidance and build your understanding. Always check publication dates, local policies and the guidance relevant to the person or setting you are studying.</p>
+      </div>
+      <div class="resource-toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="resource-search" type="search" placeholder="Search resources…" aria-label="Search useful resources"></label>
+        <select id="resource-category" aria-label="Filter resources by category">
+          <option value="All">All categories</option>
+          <option>Clinical guidance</option>
+          <option>Professional organisations</option>
+          <option>Medicines &amp; reference</option>
+          <option>Textbooks &amp; learning</option>
+          <option>Welsh resources</option>
+        </select>
+      </div>
+      <p class="resource-count" id="resource-count" aria-live="polite"></p>
+      <div class="resource-grid" id="resource-grid"></div>
+      <p class="resource-disclaimer">Resource links are provided for learning and signposting. Access arrangements can change, and some content may require membership, an NHS or university login, library access or purchase. This page does not replace local clinical guidance or professional judgement.</p>
     </section>
   </main>
 
