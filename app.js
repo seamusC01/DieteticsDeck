@@ -44,11 +44,43 @@ band5:{label:"Band 5 dietitian",items:[
 };
 const icons={"Medicines":"✚","Renal":"◉","Biochemistry":"⌁","Nutrition":"✿","Nutrition support":"＋","Diabetes":"◒","Liver":"◉","Digestive tract":"⌁"};
 const descriptions={"Medicines":"Drug classes and their actions","Renal":"Kidney function and electrolytes","Biochemistry":"Understanding common blood results","Nutrition":"Core nutrition knowledge","Nutrition support":"Screening and nutrition support","Diabetes":"Blood glucose and diabetes care","Liver":"Liver function and nutrition","Digestive tract":"Digestion, absorption and gut health"};
+const resources = [
+  {name:"NICE guidance",category:"Clinical guidance",description:"Evidence-based recommendations and guidance across health and care, including nutrition support, diabetes, obesity and many clinical conditions.",access:"Free to access",url:"https://www.nice.org.uk/guidance"},
+  {name:"BAPEN",category:"Clinical guidance",description:"UK organisation focused on clinical nutrition, malnutrition and nutrition support. Explore guidance, screening resources and learning materials.",access:"Many resources free; some learning requires access or membership",url:"https://www.bapen.org.uk/resources-and-education/"},
+  {name:"PENG Pocket Guide to Clinical Nutrition",category:"Clinical guidance",description:"A practical clinical nutrition reference covering assessment, requirements and nutrition support. Check the PENG page for the latest edition and access arrangements.",access:"5th edition e-guide: free for PENG members; purchase options available",url:"https://www.peng.org.uk/publications-resources/pocket-guide.php"},
+  {name:"NHS Wales dietetic service resources",category:"Welsh resources",description:"A Welsh health-board example of patient-facing dietetic information and signposting, including healthy eating and condition-related resources.",access:"Free to access",url:"https://pthb.nhs.wales/services/adult-and-older-peoples-community-services/dietetic-services/"},
+  {name:"Nutrition Skills for Life",category:"Welsh resources",description:"Nutrition education and community food skills resources developed in Wales, useful for public health nutrition and health-promotion learning.",access:"Free to access",url:"https://nutritionskillsforlife.com/"},
+  {name:"British Dietetic Association (BDA)",category:"Professional organisations",description:"The professional body for UK dietitians. Find professional information, specialist groups, Food Fact Sheets, student support and learning opportunities.",access:"Public resources available; some content requires membership",url:"https://www.bda.uk.com/"},
+  {name:"Health and Care Professions Council (HCPC)",category:"Professional organisations",description:"Read the standards of proficiency for dietitians, standards of conduct and other information relevant to professional practice.",access:"Free to access",url:"https://www.hcpc-uk.org/standards/standards-of-proficiency/dietitians/"},
+  {name:"The Nutrition Society",category:"Professional organisations",description:"A learned society supporting nutrition science. Explore publications, events and professional development opportunities.",access:"Some resources free; membership or subscriptions may apply",url:"https://www.nutritionsociety.org/"},
+  {name:"British Nutrition Foundation",category:"Professional organisations",description:"Evidence-based nutrition science and education resources, including material that can support public health and nutrition teaching.",access:"Many public resources free",url:"https://www.nutrition.org.uk/"},
+  {name:"British National Formulary (BNF)",category:"Medicines & reference",description:"A medicines reference for healthcare professionals. Useful for understanding medicine indications, cautions and adverse effects alongside appropriate supervision and local practice.",access:"Access may depend on NHS, university or other subscription arrangements",url:"https://bnf.nice.org.uk/"},
+  {name:"Scientific Advisory Committee on Nutrition (SACN)",category:"Clinical guidance",description:"UK scientific advice on nutrition and related health matters. Useful for understanding the evidence behind population nutrition recommendations.",access:"Free to access",url:"https://www.gov.uk/government/groups/scientific-advisory-committee-on-nutrition"},
+  {name:"The Eatwell Guide",category:"Welsh resources",description:"The NHS overview of the proportions of food groups that contribute to a healthy, balanced diet over time. A useful public health teaching resource.",access:"Free to access",url:"https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/the-eatwell-guide/"},
+  {name:"Manual of Dietetic Practice — 7th edition",category:"Textbooks & learning",description:"A comprehensive reference covering professional practice, public health, nutrition through the life course, assessment and adult and paediatric clinical dietetics.",access:"Purchase or check university and NHS library access; BDA member discount may be available",url:"https://www.bda.uk.com/membership/publications/manual-of-dietetic-practice.html"},
+  {name:"Cochrane Library",category:"Textbooks & learning",description:"A source of systematic reviews and evidence to support critical appraisal and evidence-based practice.",access:"Some content is freely available; full-text access may require an institutional subscription",url:"https://www.cochranelibrary.com/"}
+];
+
 const storageKey="dietetics-deck-progress-v1";
 let progress=JSON.parse(localStorage.getItem(storageKey)||"{}");
 let currentCards=[...cards],currentIndex=0,answerVisible=false,quizOrder=[],quizIndex=0,quizScore=0,quizAnswered=false,selectedLevel="fresh",dueOnly=false;
 const $=id=>document.getElementById(id);
 function save(){localStorage.setItem(storageKey,JSON.stringify(progress));}
+function renderResources(){
+  const term=$("resource-search").value.trim().toLowerCase();
+  const category=$("resource-category").value;
+  const matches=resources.filter(r=>(category==="All"||r.category===category)&&(`${r.name} ${r.category} ${r.description} ${r.access}`).toLowerCase().includes(term));
+  $("resource-count").textContent=`${matches.length} resource${matches.length===1?"":"s"}`;
+  $("resource-grid").innerHTML=matches.length?matches.map(r=>`<article class="resource-card">
+    <div class="resource-card-top"><span class="resource-category">${r.category}</span><span class="resource-arrow" aria-hidden="true">↗</span></div>
+    <h2>${r.name}</h2>
+    <p>${r.description}</p>
+    <div class="resource-access"><strong>Access:</strong> ${r.access}</div>
+    <a href="${r.url}" target="_blank" rel="noopener noreferrer">Visit resource <span aria-hidden="true">↗</span></a>
+  </article>`).join(""):'<div class="resource-empty">No resources match that search. Try another word or category.</div>';
+}
+$("resource-search").addEventListener("input",renderResources);
+$("resource-category").addEventListener("change",renderResources);
 function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===name+"-view"));document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.view===name));if(name==="progress")renderProgress();if(name==="cards")renderCard();}
 document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.querySelectorAll("[data-home]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showView("home");window.scrollTo({top:0,behavior:"smooth"});}));
@@ -146,4 +178,4 @@ function renderProgress(){const entries=Object.values(progress),reviewed=entries
 $("reset-progress").addEventListener("click",()=>{if(confirm("Reset all revision progress saved in this browser?")){progress={};save();renderProgress();}});
 $("level-toggle").addEventListener("click",()=>{const panel=$("level-options"),button=$("level-toggle"),expanded=button.getAttribute("aria-expanded")==="true";button.setAttribute("aria-expanded",String(!expanded));panel.classList.toggle("collapsed",expanded);button.innerHTML=expanded?'Show levels <span aria-hidden="true">⌄</span>':'Hide levels <span aria-hidden="true">⌃</span>';});
 document.querySelectorAll("[data-level]").forEach(button=>button.addEventListener("click",()=>{selectedLevel=button.dataset.level;document.querySelectorAll("[data-level]").forEach(option=>option.classList.toggle("selected",option===button));const label=quizLevels[selectedLevel].label;$("level-selection-note").textContent="Selected level: "+label+". Your flashcards and quiz questions will match this level.";filterCards();startQuiz();}));
-buildTopics();filterCards();startQuiz();
+buildTopics();filterCards();startQuiz();renderResources();
