@@ -217,11 +217,14 @@ function renderCard(){
   $("card-answer").classList.toggle("hidden",!answerVisible);
   $("reveal-btn").classList.toggle("hidden",answerVisible);
   $("rating-area").classList.toggle("hidden",!answerVisible);
-  $("card-hint").textContent=answerVisible
-    ?"Rate your recall to schedule this card."
-    :(c.hint||"Take a moment to think before revealing.");
+  $("card-hint").textContent=c.hint||"No hint available for this card.";
+  $("card-hint").classList.add("hidden");
+  $("hint-btn").classList.toggle("hidden",!c.hint||answerVisible);
+  $("hint-btn").textContent="Show hint";
+  $("hint-btn").setAttribute("aria-expanded","false");
 }
 $("search-input").addEventListener("input",filterCards);$("category-filter").addEventListener("change",filterCards);
+$("hint-btn").addEventListener("click",()=>{const hint=$("card-hint"),button=$("hint-btn");const opening=hint.classList.contains("hidden");hint.classList.toggle("hidden",!opening);button.textContent=opening?"Hide hint":"Show hint";button.setAttribute("aria-expanded",String(opening));});
 $("reveal-btn").addEventListener("click",()=>{answerVisible=true;renderCard();});
 $("previous-btn").addEventListener("click",()=>{if(currentCards.length){currentIndex=(currentIndex-1+currentCards.length)%currentCards.length;answerVisible=false;renderCard();}});
 $("next-btn").addEventListener("click",()=>{if(currentCards.length){currentIndex=(currentIndex+1)%currentCards.length;answerVisible=false;renderCard();}});
