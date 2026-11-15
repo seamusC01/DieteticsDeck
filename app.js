@@ -46,7 +46,7 @@ const icons={"Medicines":"✚","Renal":"◉","Biochemistry":"⌁","Nutrition":"�
 const descriptions={"Medicines":"Drug classes and their actions","Renal":"Kidney function and electrolytes","Biochemistry":"Understanding common blood results","Nutrition":"Core nutrition knowledge","Nutrition support":"Screening and nutrition support","Diabetes":"Blood glucose and diabetes care","Liver":"Liver function and nutrition","Digestive tract":"Digestion, absorption and gut health"};
 const storageKey="dietetics-deck-progress-v1";
 let progress=JSON.parse(localStorage.getItem(storageKey)||"{}");
-let currentCards=[...cards],currentIndex=0,answerVisible=false,quizOrder=[],quizIndex=0,quizScore=0,quizAnswered=false,selectedLevel="fresh";
+let currentCards=[...cards],currentIndex=0,answerVisible=false,quizOrder=[],quizIndex=0,quizScore=0,quizAnswered=false,selectedLevel="fresh",dueOnly=false;
 const $=id=>document.getElementById(id);
 function save(){localStorage.setItem(storageKey,JSON.stringify(progress));}
 function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===name+"-view"));document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.view===name));if(name==="progress")renderProgress();if(name==="cards")renderCard();}
@@ -56,7 +56,7 @@ document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=
 function buildTopics(){const topics=[...new Set(cards.map(c=>c.topic))];$("hero-due").textContent=cards.length;$("hero-topics").textContent=topics.length;$("topic-grid").innerHTML=topics.map(t=>`<button class="topic-card" data-topic="${t}"><span class="topic-icon">${icons[t]||"•"}</span><strong>${t}</strong><span>${descriptions[t]} · ${cards.filter(c=>c.topic===t).length} cards</span></button>`).join("");$("category-filter").innerHTML='<option value="All">All topics</option>'+topics.map(t=>`<option>${t}</option>`).join("");document.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>{$("category-filter").value=b.dataset.topic;filterCards();showView("cards");}));}
 function filterCards(){
   const term=$("search-input").value.toLowerCase(),topic=$("category-filter").value;
-  currentCards=cards.filter(c=>c.level===selectedLevel&&(topic==="All"||c.topic===topic)&&(`${c.q} ${c.a} ${c.topic}`).toLowerCase().includes(term));
+  currentCards=cards.filter(c=>c.level===selectedLevel&&(topic==="All"||c.topic===topic)&&(`${c.q} ${c.a} ${c.topic}`).toLowerCase().includes(term)&&(!dueOnly||(progress[c.id]?.due&&new Date(progress[c.id].due).getTime()<=Date.now())));
   const now=Date.now();
   const priority=c=>{
     const record=progress[c.id];
@@ -79,17 +79,31 @@ function filterCards(){
 function startRevision(){
   $("category-filter").value="All";
   $("search-input").value="";
+  dueOnly=false;
+  updateDueFilterButton();
   filterCards();
   showView("cards");
 }
+function updateDueFilterButton(){
+  const button=$("due-filter-btn");
+  button.setAttribute("aria-pressed",String(dueOnly));
+  button.textContent=dueOnly?"Show all cards":"Due for revision";
+  button.classList.toggle("primary",dueOnly);
+  button.classList.toggle("secondary",!dueOnly);
+}
+$("due-filter-btn").addEventListener("click",()=>{
+  dueOnly=!dueOnly;
+  updateDueFilterButton();
+  filterCards();
+});
 function renderCard(){
   const c=currentCards[currentIndex];
 
   if(!c){
     $("flashcard").classList.add("hidden");
     $("rating-area").classList.add("hidden");
-    $("card-count").textContent="No matching cards";
-    $("card-position").textContent="Try another search or topic.";
+    $("card-count").textContent=dueOnly?"No cards due for revision":"No matching cards";
+    $("card-position").textContent=dueOnly?"You are up to date for this selection.":"Try another search or topic.";
     return;
   }
 
