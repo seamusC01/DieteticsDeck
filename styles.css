@@ -141,3 +141,29 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .level-option.level-locked strong{display:flex;align-items:center;justify-content:center;gap:7px}
 .level-option .level-lock{display:inline!important;font-size:15px;line-height:1}
 .level-option.level-locked:hover{filter:grayscale(.35);box-shadow:none}
+
+
+/* Interactive digestive system quiz diagram */
+.digestive-diagram-wrap{max-width:620px;margin:20px auto 12px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.digestive-diagram{display:block;width:100%;max-width:500px;height:auto;margin:0 auto;overflow:visible}
+.diagram-torso{fill:#f7f5ef;stroke:#e4e5dc;stroke-width:2}
+.diagram-organ{cursor:pointer;outline:none;transition:opacity .15s ease}
+.diagram-organ:hover .organ-shape{filter:brightness(.92);stroke-width:13}
+.diagram-organ:focus-visible{outline:none}
+.diagram-organ:focus-visible .organ-shape{filter:drop-shadow(0 0 3px #315f49);stroke-width:14}
+.organ-shape{stroke:#7d8f83;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:fill .15s ease,stroke .15s ease,stroke-width .15s ease}
+.oesophagus-shape{fill:none;stroke:#d69a78;stroke-width:13}
+.liver-shape{fill:#a96c59;stroke:#875343}
+.stomach-shape{fill:#e9b6a1;stroke:#b77d68}
+.pancreas-shape{fill:#e9cb83;stroke:#b59a5e}
+.colon-shape{fill:none;stroke:#d6a56e;stroke-width:17}
+.small-bowel-shape{fill:none;stroke:#e2a1a1;stroke-width:9}
+.ileum-shape{fill:none;stroke:#c77f91;stroke-width:10}
+.rectum-shape{fill:none;stroke:#d6a56e;stroke-width:12}
+.diagram-labels{font:10px Arial,sans-serif;fill:#52655a}
+.diagram-instruction{margin:10px 0 0;text-align:center;color:var(--muted);font-size:11px}
+.diagram-organ.diagram-correct .organ-shape{stroke:#25834f!important;fill:#a9dfbb!important;filter:drop-shadow(0 0 3px rgba(37,131,79,.35))}
+.diagram-organ.diagram-incorrect .organ-shape{stroke:#c34c4c!important;fill:#f1b4b4!important;filter:drop-shadow(0 0 3px rgba(195,76,76,.3))}
+.diagram-organ.diagram-disabled{cursor:default}
+.diagram-organ.diagram-disabled:not(.diagram-correct):not(.diagram-incorrect){opacity:.58}
+@media(max-width:520px){.digestive-diagram-wrap{padding:10px 6px}.diagram-labels{font-size:9px}}
