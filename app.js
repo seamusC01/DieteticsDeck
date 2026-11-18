@@ -236,68 +236,85 @@ document.querySelectorAll("[data-rating]").forEach(b=>b.addEventListener("click"
 function startQuiz(){const labels=selectedLevels.map(level=>quizLevels[level].label);const items=selectedLevels.flatMap(level=>quizLevels[level].items);const label=labels.join(" + ");quizOrder=[...items].sort(()=>Math.random()-.5);$("quiz-level-label").textContent=label;$("quiz-description").textContent=`${quizOrder.length} questions across ${label.toLowerCase()}.`;quizIndex=0;quizScore=0;quizAnswered=false;renderQuiz();}
 function digestiveDiagramMarkup(){return `
 <div class="digestive-diagram-wrap">
-<svg class="digestive-diagram" viewBox="0 0 440 430" role="group" aria-label="Interactive textbook-style front view of the digestive system. Select an organ or section.">
+<svg class="digestive-diagram" viewBox="0 0 560 520" role="group" aria-label="Textbook-style anatomical illustration of the digestive system. Select an organ or section.">
 <defs>
-  <linearGradient id="organLiver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b97862"/><stop offset="1" stop-color="#8f5145"/></linearGradient>
-  <linearGradient id="organStomach" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c5b0"/><stop offset="1" stop-color="#d99183"/></linearGradient>
-  <linearGradient id="organBowel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#efb5a9"/><stop offset="1" stop-color="#d98783"/></linearGradient>
+ <linearGradient id="bodyTone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0e5"/><stop offset="1" stop-color="#f3d6c4"/></linearGradient>
+ <linearGradient id="liverTone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bd7564"/><stop offset="1" stop-color="#914d48"/></linearGradient>
+ <linearGradient id="stomachTone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3a092"/><stop offset="1" stop-color="#d87572"/></linearGradient>
+ <linearGradient id="bowelTone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6b4a7"/><stop offset="1" stop-color="#d87979"/></linearGradient>
+ <linearGradient id="colonTone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3b68f"/><stop offset="1" stop-color="#d88a69"/></linearGradient>
 </defs>
-<!-- torso silhouette -->
-<path class="diagram-torso" d="M151 24 Q178 7 220 12 Q262 7 289 24 L322 75 Q337 105 324 143 L309 388 Q220 416 131 388 L116 143 Q103 105 118 75 Z"/>
-<path class="diagram-body-detail" d="M151 25 Q151 60 169 78 M289 25 Q289 60 271 78"/>
+<!-- simplified abdominal outline -->
+<path class="diagram-torso" d="M174 20 Q214 5 280 10 Q346 5 386 20 L424 78 Q440 113 425 165 L409 470 Q280 503 151 470 L135 165 Q120 113 136 78Z" fill="url(#bodyTone)"/>
+<path class="diagram-body-detail" d="M174 22 Q175 67 194 91 M386 22 Q385 67 366 91 M151 470 Q280 488 409 470"/>
 <!-- oesophagus -->
 <g class="diagram-organ" data-organ="oesophagus" role="button" tabindex="0" aria-label="Oesophagus">
- <path class="organ-shape oesophagus-shape" d="M220 45 C217 72 223 91 220 119"/>
+ <path class="organ-shape oesophagus-shape" d="M280 35 C276 69 282 95 279 124" />
 </g>
-<!-- liver: patient's right, viewer's left -->
+<!-- liver, on the person's right (left of image) -->
 <g class="diagram-organ" data-organ="liver" role="button" tabindex="0" aria-label="Liver">
- <path class="organ-shape liver-shape" d="M139 119 C154 94 191 96 218 111 C230 118 235 137 226 153 C210 171 171 174 143 161 C129 155 129 135 139 119 Z"/>
- <path class="organ-detail" d="M218 113 Q213 135 224 151"/>
+ <path class="organ-shape liver-shape" d="M157 145 C164 116 194 105 231 111 C257 115 278 128 298 145 C307 153 310 171 298 184 C282 202 246 205 214 198 C190 193 164 185 154 169 C150 161 152 152 157 145Z"/>
+ <path class="organ-detail" d="M270 128 C259 149 263 177 291 187 M181 133 C196 143 211 147 228 148"/>
 </g>
 <!-- stomach -->
 <g class="diagram-organ" data-organ="stomach" role="button" tabindex="0" aria-label="Stomach">
- <path class="organ-shape stomach-shape" d="M244 111 C266 103 287 119 289 141 C292 160 279 174 263 180 C246 185 235 174 238 157 C240 144 230 133 234 122 C236 117 239 113 244 111 Z"/>
+ <path class="organ-shape stomach-shape" d="M316 115 C339 105 363 117 373 139 C383 162 375 189 359 207 C344 224 322 236 300 229 C281 223 275 205 284 189 C294 171 294 155 286 139 C279 123 295 116 316 115Z"/>
+ <path class="organ-detail" d="M306 125 C323 144 324 164 313 181 C304 197 311 213 329 220"/>
+</g>
+<!-- duodenum -->
+<g class="diagram-organ" data-organ="duodenum" role="button" tabindex="0" aria-label="Duodenum">
+ <path class="organ-shape duodenum-shape" d="M297 220 C281 232 274 248 284 260 C296 274 322 270 333 255 C344 239 335 226 324 224" />
 </g>
 <!-- pancreas -->
 <g class="diagram-organ" data-organ="pancreas" role="button" tabindex="0" aria-label="Pancreas">
- <path class="organ-shape pancreas-shape" d="M207 180 C222 170 247 169 267 178 C256 188 240 194 220 192 C211 191 203 188 207 180 Z"/>
+ <path class="organ-shape pancreas-shape" d="M242 221 C255 208 277 205 297 211 C313 215 327 223 337 232 C321 239 306 243 286 240 C267 238 250 243 239 235 C234 231 237 225 242 221Z"/>
+ <path class="organ-detail" d="M250 226 Q282 216 319 231"/>
 </g>
-<!-- large intestine -->
+<!-- large intestine: caecum, ascending, transverse, descending and sigmoid colon -->
 <g class="diagram-organ" data-organ="large-intestine" role="button" tabindex="0" aria-label="Large intestine">
- <path class="organ-shape colon-shape" d="M151 197 C137 197 135 211 135 228 L135 313 Q135 334 155 334 L284 334 Q305 334 305 313 L305 224 Q305 204 289 204 L289 194"/>
- <path class="organ-detail colon-folds" d="M136 222 l13 0 M136 247 l13 0 M136 273 l13 0 M136 299 l13 0 M291 228 l13 0 M291 254 l13 0 M291 280 l13 0 M291 306 l13 0 M169 333 l0 -13 M196 333 l0 -13 M224 333 l0 -13 M252 333 l0 -13"/>
+ <path class="organ-shape colon-shape" d="M183 260 C165 256 153 269 153 289 L153 383 C153 405 167 416 187 416 L369 416 C390 416 402 402 402 382 L402 285 C402 265 388 254 369 260 C349 267 338 268 320 264"/>
+ <path class="organ-detail colon-folds" d="M154 286 l17 3 M154 309 l17 2 M154 334 l17 2 M154 359 l17 2 M154 384 l17 1 M178 414 l2 -17 M207 416 l1 -17 M237 416 l0 -17 M267 416 l0 -17 M297 416 l0 -17 M327 416 l0 -17 M357 414 l-1 -17 M385 284 l-17 3 M385 309 l-17 2 M385 334 l-17 2 M385 359 l-17 2 M385 384 l-17 2"/>
 </g>
-<!-- jejunum, upper small bowel loops -->
+<!-- caecum and appendix -->
+<g class="diagram-organ" data-organ="caecum" role="button" tabindex="0" aria-label="Caecum">
+ <path class="organ-shape caecum-shape" d="M151 376 C132 377 126 396 136 413 C147 433 175 437 190 421 C202 408 194 389 179 381 C170 376 160 375 151 376Z"/>
+</g>
+<g class="diagram-organ" data-organ="appendix" role="button" tabindex="0" aria-label="Appendix">
+ <path class="organ-shape appendix-shape" d="M155 426 C151 439 154 453 163 461 C169 466 176 460 174 453 C171 444 166 437 167 428Z"/>
+</g>
+<!-- jejunum: upper, central coils -->
 <g class="diagram-organ" data-organ="jejunum" role="button" tabindex="0" aria-label="Jejunum, upper part of small intestine">
- <path class="organ-shape small-bowel-shape" d="M165 216 C180 199 205 204 210 220 C216 235 194 241 177 230 C160 219 151 238 166 248 C181 258 207 245 222 257 C237 269 217 282 199 273 C180 263 162 270 164 285"/>
- <path class="organ-shape small-bowel-shape" d="M226 211 C245 204 260 217 255 231 C250 244 230 242 220 233"/>
+ <path class="organ-shape small-bowel-shape" d="M203 267 C218 249 250 251 258 270 C266 290 237 300 216 284 C194 267 181 286 196 303 C210 320 245 306 265 320 C286 334 267 351 244 341 C221 331 198 341 202 360"/>
+ <path class="organ-shape small-bowel-shape" d="M276 263 C294 250 319 260 315 279 C312 295 289 296 278 282 M220 309 C236 293 263 299 267 316"/>
 </g>
-<!-- ileum, lower small bowel loops -->
+<!-- ileum: lower central coils -->
 <g class="diagram-organ" data-organ="ileum" role="button" tabindex="0" aria-label="Ileum, lower part of small intestine">
- <path class="organ-shape ileum-shape" d="M164 282 C177 269 196 284 191 297 C186 311 165 304 161 316 C157 329 178 337 194 326 C211 315 221 297 238 303 C255 309 253 326 239 331"/>
- <path class="organ-shape ileum-shape" d="M202 286 C218 274 239 283 236 296 C233 308 214 309 205 299"/>
+ <path class="organ-shape ileum-shape" d="M205 354 C218 337 242 345 239 363 C236 381 211 378 205 391 C198 407 220 417 239 405 C258 393 271 374 289 381 C309 389 304 409 285 416"/>
+ <path class="organ-shape ileum-shape" d="M251 355 C266 340 290 346 292 363 C294 378 275 384 264 372 M302 300 C321 287 343 296 338 313 C333 330 313 328 304 316"/>
 </g>
 <!-- rectum -->
 <g class="diagram-organ" data-organ="rectum" role="button" tabindex="0" aria-label="Rectum">
- <path class="organ-shape rectum-shape" d="M220 334 C218 350 221 365 220 382"/>
+ <path class="organ-shape rectum-shape" d="M280 416 C277 434 282 451 280 473"/>
 </g>
-<!-- anatomical labels and leader lines -->
+<!-- gallbladder, shown as anatomical context -->
+<path d="M265 173 C256 181 258 196 267 201 C276 196 278 183 271 174Z" fill="#91a75e" stroke="#71834b" stroke-width="1.5"/>
+<!-- label leaders -->
 <g class="diagram-labels" aria-hidden="true">
- <path d="M220 65 L326 65 L337 54 M166 133 L91 133 L77 119 M277 137 L340 137 M235 183 L340 183 M137 257 L73 257 L58 246 M184 296 L74 296 L58 308 M220 365 L329 365 L340 376"/>
- <text x="341" y="49" text-anchor="end">Oesophagus</text>
- <text x="12" y="116">Liver</text>
- <text x="341" y="130" text-anchor="end">Stomach</text>
- <text x="341" y="176" text-anchor="end">Pancreas</text>
- <text x="12" y="242">Large intestine</text>
- <text x="12" y="321">Ileum</text>
- <text x="341" y="391" text-anchor="end">Rectum</text>
- <text x="220" y="236" text-anchor="middle" class="diagram-small-label">Small intestine</text>
- <text x="220" y="251" text-anchor="middle" class="diagram-small-label">Jejunum above · ileum below</text>
+ <path d="M280 74 L430 74 M180 153 L93 153 M355 155 L453 155 M285 230 L445 230 M154 324 L76 324 M216 290 L73 290 M280 455 L438 455 M155 447 L83 447"/>
+ <text x="435" y="68" text-anchor="end">Oesophagus</text>
+ <text x="12" y="147">Liver</text>
+ <text x="545" y="149" text-anchor="end">Stomach</text>
+ <text x="545" y="224" text-anchor="end">Pancreas</text>
+ <text x="12" y="318">Large intestine</text>
+ <text x="12" y="284">Jejunum</text>
+ <text x="12" y="463">Appendix</text>
+ <text x="435" y="449" text-anchor="end">Rectum</text>
+ <text x="280" y="300" text-anchor="middle" class="diagram-small-label">Small intestine</text>
+ <text x="280" y="313" text-anchor="middle" class="diagram-small-label">Jejunum above · ileum below</text>
 </g>
 </svg>
 <p class="diagram-instruction">Select an organ or section on the diagram. You can also use Tab and Enter to choose.</p>
 </div>`;}
-
 function renderQuiz(){if(quizIndex>=quizOrder.length){$("quiz-progress").textContent="Complete";$("quiz-progress-bar").style.width="100%";$("quiz-content").innerHTML=`<div class="quiz-result"><p class="eyebrow">SESSION COMPLETE</p><h2 class="quiz-question">You scored ${quizScore} out of ${quizOrder.length}</h2><p class="local-note">Use the explanations to guide your next revision session.</p><button class="button primary" id="retry-quiz">Try another round</button></div>`;$("retry-quiz").addEventListener("click",startQuiz);return;}const q=quizOrder[quizIndex];$("quiz-progress").textContent=`Question ${quizIndex+1} of ${quizOrder.length}`;$("quiz-progress-bar").style.width=`${quizIndex/quizOrder.length*100}%`;$("quiz-content").innerHTML=q.type==="diagram"?`<h2 class="quiz-question">${q.q}</h2>${digestiveDiagramMarkup()}<div id="quiz-feedback"></div><div class="quiz-actions"><span class="local-note">Score: ${quizScore}/${quizOrder.length}</span><button class="button primary hidden" id="quiz-next">${quizIndex===quizOrder.length-1?"See results":"Next question →"}</button></div>`:`<h2 class="quiz-question">${q.q}</h2><div class="option-list">${q.opts.map((o,i)=>`<button class="option" data-option="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div id="quiz-feedback"></div><div class="quiz-actions"><span class="local-note">Score: ${quizScore}/${quizOrder.length}</span><button class="button primary hidden" id="quiz-next">${quizIndex===quizOrder.length-1?"See results":"Next question →"}</button></div>`;if(q.type==="diagram"){document.querySelectorAll("[data-organ]").forEach(el=>{el.addEventListener("click",()=>answerQuiz(el.dataset.organ));el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();answerQuiz(el.dataset.organ);}});});}else{document.querySelectorAll("[data-option]").forEach(b=>b.addEventListener("click",()=>answerQuiz(Number(b.dataset.option))));}}
 function answerQuiz(choice){if(quizAnswered)return;quizAnswered=true;const q=quizOrder[quizIndex];const correct=choice===q.correct;if(correct)quizScore++;if(q.type==="diagram"){document.querySelectorAll("[data-organ]").forEach(el=>{el.classList.add("diagram-disabled");el.setAttribute("aria-disabled","true");if(el.dataset.organ===q.correct)el.classList.add("diagram-correct");if(el.dataset.organ===choice&&!correct)el.classList.add("diagram-incorrect");});}else{document.querySelectorAll("[data-option]").forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add("correct");else if(i===choice)b.classList.add("incorrect");});}$("quiz-feedback").innerHTML=`<div class="feedback"><strong>${correct?"Correct.":"Not quite."}</strong> ${q.why}</div>`;$("quiz-next").classList.remove("hidden");$("quiz-next").addEventListener("click",()=>{quizIndex++;quizAnswered=false;renderQuiz();});}
 function renderProgress(){const entries=Object.values(progress),reviewed=entries.length,confident=entries.filter(x=>["good","easy"].includes(x.rating)).length,revisit=entries.filter(x=>["again","hard"].includes(x.rating)).length;$("stat-reviewed").textContent=reviewed;$("stat-confident").textContent=confident;$("stat-revisit").textContent=revisit;$("topic-progress").innerHTML=[...new Set(cards.map(c=>c.topic))].map(t=>{const subset=cards.filter(c=>c.topic===t),done=subset.filter(c=>progress[c.id]).length;return `<div class="progress-row"><strong>${t}</strong><div class="progress-track"><span style="width:${done/subset.length*100}%"></span></div><span>${done}/${subset.length}</span></div>`;}).join("");}
