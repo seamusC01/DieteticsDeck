@@ -144,23 +144,29 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 
 
 /* Interactive digestive system quiz diagram */
-.digestive-diagram-wrap{max-width:620px;margin:20px auto 12px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:16px}
-.digestive-diagram{display:block;width:100%;max-width:500px;height:auto;margin:0 auto;overflow:visible}
-.diagram-torso{fill:#f7f5ef;stroke:#e4e5dc;stroke-width:2}
+.digestive-diagram-wrap{max-width:680px;margin:20px auto 12px;padding:18px;background:linear-gradient(145deg,#fff 0%,#fbfaf6 100%);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(48,63,52,.06)}
+.digestive-diagram{display:block;width:100%;max-width:560px;height:auto;margin:0 auto;overflow:visible}
+.diagram-torso{fill:#f6eee5;stroke:#d9cfc3;stroke-width:2}
+.diagram-body-detail{fill:none;stroke:#e0d5ca;stroke-width:2}
 .diagram-organ{cursor:pointer;outline:none;transition:opacity .15s ease}
-.diagram-organ:hover .organ-shape{filter:brightness(.92);stroke-width:13}
+.diagram-organ:hover .organ-shape{filter:brightness(.94);stroke-width:4}
 .diagram-organ:focus-visible{outline:none}
-.diagram-organ:focus-visible .organ-shape{filter:drop-shadow(0 0 3px #315f49);stroke-width:14}
-.organ-shape{stroke:#7d8f83;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:fill .15s ease,stroke .15s ease,stroke-width .15s ease}
-.oesophagus-shape{fill:none;stroke:#d69a78;stroke-width:13}
-.liver-shape{fill:#a96c59;stroke:#875343}
-.stomach-shape{fill:#e9b6a1;stroke:#b77d68}
-.pancreas-shape{fill:#e9cb83;stroke:#b59a5e}
-.colon-shape{fill:none;stroke:#d6a56e;stroke-width:17}
-.small-bowel-shape{fill:none;stroke:#e2a1a1;stroke-width:9}
-.ileum-shape{fill:none;stroke:#c77f91;stroke-width:10}
-.rectum-shape{fill:none;stroke:#d6a56e;stroke-width:12}
-.diagram-labels{font:10px Arial,sans-serif;fill:#52655a}
+.diagram-organ:focus-visible .organ-shape{filter:drop-shadow(0 0 4px #315f49);stroke-width:4}
+.organ-shape{stroke:#875e56;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:fill .15s ease,stroke .15s ease,stroke-width .15s ease}
+.oesophagus-shape{fill:none;stroke:#c87968;stroke-width:12}
+.liver-shape{fill:url(#organLiver);stroke:#78483e}
+.stomach-shape{fill:url(#organStomach);stroke:#b87970}
+.pancreas-shape{fill:#e9c77f;stroke:#b28c4d}
+.colon-shape{fill:none;stroke:#c99058;stroke-width:17}
+.small-bowel-shape{fill:none;stroke:url(#organBowel);stroke-width:9}
+.ileum-shape{fill:none;stroke:#c77f91;stroke-width:9}
+.rectum-shape{fill:none;stroke:#c99058;stroke-width:12}
+.organ-detail{fill:none;stroke:rgba(75,43,37,.28);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.colon-folds{stroke:#f0c69b;stroke-width:2.5}
+.diagram-labels{font:12px Arial,sans-serif;font-weight:600;fill:#52655a;stroke:none}
+.diagram-labels path{fill:none;stroke:#9aa79b;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.diagram-labels text{stroke:none}
+.diagram-labels .diagram-small-label{font-size:9px;font-weight:500;fill:#7b8178}
 .diagram-instruction{margin:10px 0 0;text-align:center;color:var(--muted);font-size:11px}
 .diagram-organ.diagram-correct .organ-shape{stroke:#25834f!important;fill:#a9dfbb!important;filter:drop-shadow(0 0 3px rgba(37,131,79,.35))}
 .diagram-organ.diagram-incorrect .organ-shape{stroke:#c34c4c!important;fill:#f1b4b4!important;filter:drop-shadow(0 0 3px rgba(195,76,76,.3))}
