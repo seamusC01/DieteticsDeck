@@ -173,3 +173,20 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .diagram-organ.diagram-disabled{cursor:default}
 .diagram-organ.diagram-disabled:not(.diagram-correct):not(.diagram-incorrect){opacity:.58}
 @media(max-width:520px){.digestive-diagram-wrap{padding:10px 6px}.diagram-labels{font-size:9px}}
+
+
+/* Textbook-style digestive anatomy refinements */
+.duodenum-shape{fill:none;stroke:#d77f79;stroke-width:11}
+.caecum-shape{fill:url(#colonTone);stroke:#bd795f;stroke-width:2.5}
+.appendix-shape{fill:#e7a18a;stroke:#bd795f;stroke-width:2.5}
+.diagram-organ[data-organ="duodenum"] .organ-shape{pointer-events:stroke}
+.diagram-organ[data-organ="caecum"] .organ-shape,
+.diagram-organ[data-organ="appendix"] .organ-shape{pointer-events:all}
+.colon-shape{stroke:url(#colonTone);stroke-width:20;stroke-linecap:round;stroke-linejoin:round}
+.colon-folds{stroke:#f8d0ae;stroke-width:2.8;stroke-linecap:round}
+.small-bowel-shape{stroke:url(#bowelTone);stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+.ileum-shape{stroke:#d17c83;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+.diagram-labels{font:13px Arial,sans-serif;font-weight:500;fill:#3f3935}
+.diagram-labels path{stroke:#5e5954;stroke-width:1.4}
+.diagram-labels .diagram-small-label{font-size:10px;font-weight:500;fill:#655c55}
+@media(max-width:520px){.diagram-labels{font-size:10px}}
