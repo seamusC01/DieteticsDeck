@@ -236,28 +236,68 @@ document.querySelectorAll("[data-rating]").forEach(b=>b.addEventListener("click"
 function startQuiz(){const labels=selectedLevels.map(level=>quizLevels[level].label);const items=selectedLevels.flatMap(level=>quizLevels[level].items);const label=labels.join(" + ");quizOrder=[...items].sort(()=>Math.random()-.5);$("quiz-level-label").textContent=label;$("quiz-description").textContent=`${quizOrder.length} questions across ${label.toLowerCase()}.`;quizIndex=0;quizScore=0;quizAnswered=false;renderQuiz();}
 function digestiveDiagramMarkup(){return `
 <div class="digestive-diagram-wrap">
-<svg class="digestive-diagram" viewBox="0 0 340 390" role="group" aria-label="Simplified interactive diagram of the digestive system. Select an organ or section.">
-<path class="diagram-torso" d="M122 12 Q170 -2 218 12 L246 72 Q260 112 247 158 L235 350 Q170 378 105 350 L93 158 Q80 112 94 72 Z"/>
-<g class="diagram-organ" data-organ="oesophagus" role="button" tabindex="0" aria-label="Oesophagus"><path class="organ-shape oesophagus-shape" d="M165 34 C162 61 170 76 166 101" /></g>
-<g class="diagram-organ" data-organ="liver" role="button" tabindex="0" aria-label="Liver"><path class="organ-shape liver-shape" d="M112 112 Q128 91 163 105 Q177 113 174 137 Q149 151 116 140 Q105 132 112 112 Z"/></g>
-<g class="diagram-organ" data-organ="stomach" role="button" tabindex="0" aria-label="Stomach"><path class="organ-shape stomach-shape" d="M181 105 Q203 98 215 119 Q228 139 210 158 Q192 172 178 151 Q168 134 181 105 Z"/></g>
-<g class="diagram-organ" data-organ="pancreas" role="button" tabindex="0" aria-label="Pancreas"><path class="organ-shape pancreas-shape" d="M158 159 Q177 148 197 158 Q185 171 160 169 Z"/></g>
-<g class="diagram-organ" data-organ="large-intestine" role="button" tabindex="0" aria-label="Large intestine"><path class="organ-shape colon-shape" d="M126 184 C108 184 108 202 108 220 L108 282 Q108 302 128 302 L211 302 Q232 302 232 282 L232 218 Q232 197 214 197 L214 185" /></g>
+<svg class="digestive-diagram" viewBox="0 0 440 430" role="group" aria-label="Interactive textbook-style front view of the digestive system. Select an organ or section.">
+<defs>
+  <linearGradient id="organLiver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b97862"/><stop offset="1" stop-color="#8f5145"/></linearGradient>
+  <linearGradient id="organStomach" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c5b0"/><stop offset="1" stop-color="#d99183"/></linearGradient>
+  <linearGradient id="organBowel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#efb5a9"/><stop offset="1" stop-color="#d98783"/></linearGradient>
+</defs>
+<!-- torso silhouette -->
+<path class="diagram-torso" d="M151 24 Q178 7 220 12 Q262 7 289 24 L322 75 Q337 105 324 143 L309 388 Q220 416 131 388 L116 143 Q103 105 118 75 Z"/>
+<path class="diagram-body-detail" d="M151 25 Q151 60 169 78 M289 25 Q289 60 271 78"/>
+<!-- oesophagus -->
+<g class="diagram-organ" data-organ="oesophagus" role="button" tabindex="0" aria-label="Oesophagus">
+ <path class="organ-shape oesophagus-shape" d="M220 45 C217 72 223 91 220 119"/>
+</g>
+<!-- liver: patient's right, viewer's left -->
+<g class="diagram-organ" data-organ="liver" role="button" tabindex="0" aria-label="Liver">
+ <path class="organ-shape liver-shape" d="M139 119 C154 94 191 96 218 111 C230 118 235 137 226 153 C210 171 171 174 143 161 C129 155 129 135 139 119 Z"/>
+ <path class="organ-detail" d="M218 113 Q213 135 224 151"/>
+</g>
+<!-- stomach -->
+<g class="diagram-organ" data-organ="stomach" role="button" tabindex="0" aria-label="Stomach">
+ <path class="organ-shape stomach-shape" d="M244 111 C266 103 287 119 289 141 C292 160 279 174 263 180 C246 185 235 174 238 157 C240 144 230 133 234 122 C236 117 239 113 244 111 Z"/>
+</g>
+<!-- pancreas -->
+<g class="diagram-organ" data-organ="pancreas" role="button" tabindex="0" aria-label="Pancreas">
+ <path class="organ-shape pancreas-shape" d="M207 180 C222 170 247 169 267 178 C256 188 240 194 220 192 C211 191 203 188 207 180 Z"/>
+</g>
+<!-- large intestine -->
+<g class="diagram-organ" data-organ="large-intestine" role="button" tabindex="0" aria-label="Large intestine">
+ <path class="organ-shape colon-shape" d="M151 197 C137 197 135 211 135 228 L135 313 Q135 334 155 334 L284 334 Q305 334 305 313 L305 224 Q305 204 289 204 L289 194"/>
+ <path class="organ-detail colon-folds" d="M136 222 l13 0 M136 247 l13 0 M136 273 l13 0 M136 299 l13 0 M291 228 l13 0 M291 254 l13 0 M291 280 l13 0 M291 306 l13 0 M169 333 l0 -13 M196 333 l0 -13 M224 333 l0 -13 M252 333 l0 -13"/>
+</g>
+<!-- jejunum, upper small bowel loops -->
 <g class="diagram-organ" data-organ="jejunum" role="button" tabindex="0" aria-label="Jejunum, upper part of small intestine">
-<path class="organ-shape small-bowel-shape" d="M135 204 C151 188 178 190 190 205 C201 219 181 228 159 218 C137 209 132 230 151 238 C170 246 197 232 207 247" />
-<path class="organ-shape small-bowel-shape" d="M139 250 C153 237 177 243 183 255 C190 269 168 275 151 264" />
+ <path class="organ-shape small-bowel-shape" d="M165 216 C180 199 205 204 210 220 C216 235 194 241 177 230 C160 219 151 238 166 248 C181 258 207 245 222 257 C237 269 217 282 199 273 C180 263 162 270 164 285"/>
+ <path class="organ-shape small-bowel-shape" d="M226 211 C245 204 260 217 255 231 C250 244 230 242 220 233"/>
 </g>
+<!-- ileum, lower small bowel loops -->
 <g class="diagram-organ" data-organ="ileum" role="button" tabindex="0" aria-label="Ileum, lower part of small intestine">
-<path class="organ-shape ileum-shape" d="M190 260 C207 269 203 283 185 285 C168 287 151 277 141 289 C132 300 148 311 167 309 C187 307 204 293 214 281" />
-<path class="organ-shape ileum-shape" d="M151 278 C160 267 178 269 185 278" />
+ <path class="organ-shape ileum-shape" d="M164 282 C177 269 196 284 191 297 C186 311 165 304 161 316 C157 329 178 337 194 326 C211 315 221 297 238 303 C255 309 253 326 239 331"/>
+ <path class="organ-shape ileum-shape" d="M202 286 C218 274 239 283 236 296 C233 308 214 309 205 299"/>
 </g>
-<g class="diagram-organ" data-organ="rectum" role="button" tabindex="0" aria-label="Rectum"><path class="organ-shape rectum-shape" d="M170 302 L170 337" /></g>
+<!-- rectum -->
+<g class="diagram-organ" data-organ="rectum" role="button" tabindex="0" aria-label="Rectum">
+ <path class="organ-shape rectum-shape" d="M220 334 C218 350 221 365 220 382"/>
+</g>
+<!-- anatomical labels and leader lines -->
 <g class="diagram-labels" aria-hidden="true">
-<text x="250" y="48">Oesophagus</text><text x="248" y="117">Liver</text><text x="248" y="145">Stomach</text><text x="248" y="169">Pancreas</text><text x="246" y="210">Large</text><text x="246" y="222">intestine</text><text x="246" y="266">Jejunum</text><text x="246" y="290">Ileum</text><text x="246" y="337">Rectum</text>
+ <path d="M220 65 L326 65 L337 54 M166 133 L91 133 L77 119 M277 137 L340 137 M235 183 L340 183 M137 257 L73 257 L58 246 M184 296 L74 296 L58 308 M220 365 L329 365 L340 376"/>
+ <text x="341" y="49" text-anchor="end">Oesophagus</text>
+ <text x="12" y="116">Liver</text>
+ <text x="341" y="130" text-anchor="end">Stomach</text>
+ <text x="341" y="176" text-anchor="end">Pancreas</text>
+ <text x="12" y="242">Large intestine</text>
+ <text x="12" y="321">Ileum</text>
+ <text x="341" y="391" text-anchor="end">Rectum</text>
+ <text x="220" y="236" text-anchor="middle" class="diagram-small-label">Small intestine</text>
+ <text x="220" y="251" text-anchor="middle" class="diagram-small-label">Jejunum above · ileum below</text>
 </g>
 </svg>
-<p class="diagram-instruction">Select a structure on the diagram. You can also use Tab and Enter to choose.</p>
+<p class="diagram-instruction">Select an organ or section on the diagram. You can also use Tab and Enter to choose.</p>
 </div>`;}
+
 function renderQuiz(){if(quizIndex>=quizOrder.length){$("quiz-progress").textContent="Complete";$("quiz-progress-bar").style.width="100%";$("quiz-content").innerHTML=`<div class="quiz-result"><p class="eyebrow">SESSION COMPLETE</p><h2 class="quiz-question">You scored ${quizScore} out of ${quizOrder.length}</h2><p class="local-note">Use the explanations to guide your next revision session.</p><button class="button primary" id="retry-quiz">Try another round</button></div>`;$("retry-quiz").addEventListener("click",startQuiz);return;}const q=quizOrder[quizIndex];$("quiz-progress").textContent=`Question ${quizIndex+1} of ${quizOrder.length}`;$("quiz-progress-bar").style.width=`${quizIndex/quizOrder.length*100}%`;$("quiz-content").innerHTML=q.type==="diagram"?`<h2 class="quiz-question">${q.q}</h2>${digestiveDiagramMarkup()}<div id="quiz-feedback"></div><div class="quiz-actions"><span class="local-note">Score: ${quizScore}/${quizOrder.length}</span><button class="button primary hidden" id="quiz-next">${quizIndex===quizOrder.length-1?"See results":"Next question →"}</button></div>`:`<h2 class="quiz-question">${q.q}</h2><div class="option-list">${q.opts.map((o,i)=>`<button class="option" data-option="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div id="quiz-feedback"></div><div class="quiz-actions"><span class="local-note">Score: ${quizScore}/${quizOrder.length}</span><button class="button primary hidden" id="quiz-next">${quizIndex===quizOrder.length-1?"See results":"Next question →"}</button></div>`;if(q.type==="diagram"){document.querySelectorAll("[data-organ]").forEach(el=>{el.addEventListener("click",()=>answerQuiz(el.dataset.organ));el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();answerQuiz(el.dataset.organ);}});});}else{document.querySelectorAll("[data-option]").forEach(b=>b.addEventListener("click",()=>answerQuiz(Number(b.dataset.option))));}}
 function answerQuiz(choice){if(quizAnswered)return;quizAnswered=true;const q=quizOrder[quizIndex];const correct=choice===q.correct;if(correct)quizScore++;if(q.type==="diagram"){document.querySelectorAll("[data-organ]").forEach(el=>{el.classList.add("diagram-disabled");el.setAttribute("aria-disabled","true");if(el.dataset.organ===q.correct)el.classList.add("diagram-correct");if(el.dataset.organ===choice&&!correct)el.classList.add("diagram-incorrect");});}else{document.querySelectorAll("[data-option]").forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add("correct");else if(i===choice)b.classList.add("incorrect");});}$("quiz-feedback").innerHTML=`<div class="feedback"><strong>${correct?"Correct.":"Not quite."}</strong> ${q.why}</div>`;$("quiz-next").classList.remove("hidden");$("quiz-next").addEventListener("click",()=>{quizIndex++;quizAnswered=false;renderQuiz();});}
 function renderProgress(){const entries=Object.values(progress),reviewed=entries.length,confident=entries.filter(x=>["good","easy"].includes(x.rating)).length,revisit=entries.filter(x=>["again","hard"].includes(x.rating)).length;$("stat-reviewed").textContent=reviewed;$("stat-confident").textContent=confident;$("stat-revisit").textContent=revisit;$("topic-progress").innerHTML=[...new Set(cards.map(c=>c.topic))].map(t=>{const subset=cards.filter(c=>c.topic===t),done=subset.filter(c=>progress[c.id]).length;return `<div class="progress-row"><strong>${t}</strong><div class="progress-track"><span style="width:${done/subset.length*100}%"></span></div><span>${done}/${subset.length}</span></div>`;}).join("");}
