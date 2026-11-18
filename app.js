@@ -272,7 +272,7 @@ function digestiveDiagramMarkup(){return `
 </g>
 <!-- large intestine: caecum, ascending, transverse, descending and sigmoid colon -->
 <g class="diagram-organ" data-organ="large-intestine" role="button" tabindex="0" aria-label="Large intestine">
- <path class="organ-shape colon-shape" d="M183 260 C165 256 153 269 153 289 L153 383 C153 405 167 416 187 416 L369 416 C390 416 402 402 402 382 L402 285 C402 265 388 254 369 260 C349 267 338 268 320 264"/>
+ <path class="organ-shape colon-shape" d="M153 382 C145 363 150 340 150 318 L150 287 C150 266 165 255 184 260 C230 273 320 273 369 260 C389 255 402 268 402 289 L402 379 C402 399 390 412 371 412 C352 412 342 403 333 390 C324 377 309 379 299 390 C290 401 295 414 308 422"/>
  <path class="organ-detail colon-folds" d="M154 286 l17 3 M154 309 l17 2 M154 334 l17 2 M154 359 l17 2 M154 384 l17 1 M178 414 l2 -17 M207 416 l1 -17 M237 416 l0 -17 M267 416 l0 -17 M297 416 l0 -17 M327 416 l0 -17 M357 414 l-1 -17 M385 284 l-17 3 M385 309 l-17 2 M385 334 l-17 2 M385 359 l-17 2 M385 384 l-17 2"/>
 </g>
 <!-- caecum and appendix -->
