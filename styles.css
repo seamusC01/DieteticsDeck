@@ -190,3 +190,24 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .diagram-labels path{stroke:#5e5954;stroke-width:1.4}
 .diagram-labels .diagram-small-label{font-size:10px;font-weight:500;fill:#655c55}
 @media(max-width:520px){.diagram-labels{font-size:10px}}
+
+
+/* Distinct topic colours and grouped gastroenterology section */
+.topic-group-heading{grid-column:1/-1;display:flex;align-items:baseline;gap:12px;margin:12px 0 0;padding:0 2px}
+.topic-group-heading strong{font-family:Georgia,serif;font-size:19px;font-weight:500;color:var(--forest)}
+.topic-group-heading span{font-size:11px;color:var(--muted)}
+.topic-group-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:8px}
+.topic-ibs{background:#f5f0fb;border-color:#e3d7f0}
+.topic-ibs .topic-icon{background:#e7dcf4;color:#68458c}
+.topic-ibs strong{color:#68458c}
+.topic-ibd{background:#eef5fb;border-color:#d7e5f1}
+.topic-ibd .topic-icon{background:#dcebf7;color:#35688e}
+.topic-ibd strong{color:#35688e}
+.topic-coeliac-disease{background:#fbf3e8;border-color:#efdfc7}
+.topic-coeliac-disease .topic-icon{background:#f2e2c9;color:#93652d}
+.topic-coeliac-disease strong{color:#93652d}
+.topic-vitamins-and-minerals{background:#edf6ef;border-color:#d5e8d9}
+.topic-vitamins-and-minerals .topic-icon{background:#d9ecdd;color:#39734c}
+.topic-vitamins-and-minerals strong{color:#39734c}
+@media(max-width:760px){.topic-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.topic-group-grid{grid-template-columns:1fr}.topic-group-heading{display:block}.topic-group-heading span{display:block;margin-top:4px}}
