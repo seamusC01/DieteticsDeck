@@ -236,13 +236,25 @@ async function syncProgress(){
 async function saveProgressToCloud(){
   if(!supabaseClient||!signedInUser||!cloudSyncReady)return;
   try{
-    const {error}=await supabaseClient.from("learner_progress").upsert({
+    // Always read the latest cloud copy before saving, so another device's
+    // newly reviewed cards are not discarded by this device's local copy.
+    const {data,error:readError}=await supabaseClient.from("learner_progress")
+      .select("progress").eq("user_id",signedInUser.id).maybeSingle();
+    if(readError)throw readError;
+
+    const mergedProgress=mergeProgress(progress,data?.progress||{});
+    progress=mergedProgress;
+    localStorage.setItem(storageKey,JSON.stringify(progress));
+
+    const {error:saveError}=await supabaseClient.from("learner_progress").upsert({
       user_id:signedInUser.id,
-      progress,
+      progress:mergedProgress,
       updated_at:new Date().toISOString()
     },{onConflict:"user_id"});
-    if(error)throw error;
-    setAuthStatus("Progress saved and synced.");
+    if(saveError)throw saveError;
+
+    renderProgress();
+    setAuthStatus("Progress saved and combined with your other devices.");
   }catch(error){
     console.error("Supabase progress save failed:",error);
     setAuthStatus("Your progress is saved on this device, but cloud syncing failed. Please try again later.");
