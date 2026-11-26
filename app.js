@@ -62,27 +62,7 @@ const cards = [
 {id:"MED11",level:"fresh",topic:"Medicines",q:"What is levothyroxine used for, and how can food affect its absorption?",a:"Levothyroxine is a synthetic thyroid hormone used to treat an underactive thyroid (hypothyroidism). Its absorption can be affected by food and some medicines or supplements, including calcium and iron preparations. It is usually taken consistently on an empty stomach, following the prescriber's or pharmacist's instructions. Dietitians should check supplement use and avoid giving advice that conflicts with the person's medication instructions.",reference:"NHS — Levothyroxine",referenceUrl:"https://www.nhs.uk/medicines/levothyroxine/"},
 {id:"MED12",level:"placement",topic:"Medicines",q:"Why might a dietitian need to consider fat-soluble vitamins in someone taking orlistat?",a:"Orlistat reduces the absorption of some dietary fat, which can also reduce absorption of fat-soluble vitamins A, D, E and K. A healthcare professional may recommend a multivitamin supplement, taken at a different time from orlistat in line with product guidance. Dietitians should consider dietary adequacy and follow current prescribing and product advice.",reference:"NHS — Orlistat",referenceUrl:"https://www.nhs.uk/medicines/orlistat/"},
 {id:"MED13",level:"placement",topic:"Medicines",q:"What is pancreatic enzyme replacement therapy (PERT), and when might it be prescribed?",a:"PERT provides digestive enzymes, usually in capsule form, for people who do not produce enough pancreatic enzymes (exocrine pancreatic insufficiency). It helps digest fat, protein and carbohydrate and is commonly prescribed in conditions such as chronic pancreatitis or after some pancreatic surgery. Enzymes are generally taken with meals and snacks, following the individual's prescribed instructions. Dietitians should ask about adherence, timing, symptoms and nutritional status.",reference:"NHS — Pancreatin",referenceUrl:"https://www.nhs.uk/medicines/pancreatin/"},
-{id:"VIT05",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin A? (Think of vegetarian, vegan and meat-based options.)",a:`
-<strong>Vegetarian sources</strong>
-<ul>
-  <li>Eggs</li>
-  <li>Cheese and other dairy products</li>
-</ul>
-
-<strong>Vegan sources</strong>
-<ul>
-  <li>Carrots and sweet potato</li>
-  <li>Dark-green leafy vegetables, such as spinach and kale</li>
-  <li>Other orange vegetables, which provide beta-carotene</li>
-</ul>
-
-<strong>Meat-based sources</strong>
-<ul>
-    <li>Oily Fish</li>
-    <li>Liver</li>
-</ul>
-
-,reference:"NHS",referenceUrl:"https://www.nhs.uk/conditions/vitamins-and-minerals/vitamin-a/"},
+{"id":"VIT05","level":"fresh","topic":"Vitamins and minerals","q":"Which foods are good sources of vitamin A? (Think of vegetarian, vegan and meat-based options.)","a":"<strong>Vegetarian sources</strong><ul><li>Eggs</li><li>Cheese and other dairy products</li><li>Carrots, sweet potato, spinach and kale</li></ul><strong>Vegan sources</strong><ul><li>Carrots and sweet potato</li><li>Dark-green leafy vegetables, such as spinach and kale</li></ul><strong>Meat-based sources</strong><ul><li>Liver</li><li>Some oily fish</li></ul>","extendedAnswer":"<strong>Two forms of vitamin A</strong><ul><li><strong>Retinol (preformed vitamin A):</strong> found in animal foods, particularly liver, dairy products, eggs and some fish.</li><li><strong>Beta-carotene (a provitamin A carotenoid):</strong> found in orange and dark-green vegetables. The body can convert it into vitamin A.</li></ul><strong>Functions</strong><p>Vitamin A supports normal vision, immune function, growth and cell differentiation.</p><strong>Clinical considerations</strong><ul><li>Liver and liver products contain very high amounts of retinol and should be avoided during pregnancy.</li><li>Excessive intake of preformed vitamin A from supplements can be harmful. Beta-carotene from foods does not carry the same toxicity risk.</li></ul>","reference":"NHS — Vitamin A","referenceUrl":"https://www.nhs.uk/conditions/vitamins-and-minerals/vitamin-a/"},
 {id:"VIT06",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin C? (Think of vegetarian, vegan and meat-based options.)",a:"Good sources are mainly fruit and vegetables, so many options suit vegetarian and vegan diets: peppers, citrus fruit, kiwi, berries, broccoli, Brussels sprouts and potatoes. Meat and fish are not usually important sources. Vitamin C also helps the absorption of non-haem iron from plant foods."},
 {id:"VIT07",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin E? (Think of vegetarian, vegan and meat-based options.)",a:"Plant sources are particularly useful: sunflower seeds, almonds, hazelnuts, vegetable oils such as sunflower and rapeseed oil, and avocado. These suit vegetarian and vegan diets. Eggs and some fish provide smaller amounts; meat is not generally a major source."},
 {id:"VIT08",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin K? (Think of vegetarian, vegan and meat-based options.)",a:"Green leafy vegetables are key sources, including kale, spinach, broccoli, cabbage and Brussels sprouts; these are suitable for vegetarian and vegan diets. Some vegetable oils also provide vitamin K. Eggs, cheese and meat can contribute smaller amounts, and vitamin K2 is found in some fermented foods and animal foods."},
@@ -441,7 +421,13 @@ function renderCard(){
     </details>
   ` : "";
 
-  $("card-answer").innerHTML=`<div class="answer-content">${c.a}</div>${referenceHtml}`;
+  const extendedHtml = c.extendedAnswer ? `
+    <div class="extended-answer-wrap">
+      <button type="button" class="extended-answer-toggle" aria-expanded="false">More detail <span aria-hidden="true">＋</span></button>
+      <div class="extended-answer-content hidden">${c.extendedAnswer}</div>
+    </div>
+  ` : "";
+  $("card-answer").innerHTML=`<div class="answer-content">${c.a}</div>${extendedHtml}${referenceHtml}`;
 
   $("card-kind").textContent=answerVisible?"ANSWER":"QUESTION";
   $("card-answer").classList.toggle("hidden",!answerVisible);
@@ -450,6 +436,15 @@ function renderCard(){
 }
 $("search-input").addEventListener("input",filterCards);$("category-filter").addEventListener("change",filterCards);
 
+$("card-answer").addEventListener("click",event=>{
+  const button=event.target.closest(".extended-answer-toggle");
+  if(!button)return;
+  const content=button.nextElementSibling;
+  const opening=content.classList.contains("hidden");
+  content.classList.toggle("hidden",!opening);
+  button.setAttribute("aria-expanded",String(opening));
+  button.innerHTML=opening?'Less detail <span aria-hidden="true">−</span>':'More detail <span aria-hidden="true">＋</span>';
+});
 $("reveal-btn").addEventListener("click",()=>{answerVisible=true;renderCard();});
 $("previous-btn").addEventListener("click",()=>{if(currentCards.length){currentIndex=(currentIndex-1+currentCards.length)%currentCards.length;answerVisible=false;renderCard();}});
 $("next-btn").addEventListener("click",()=>{if(currentCards.length){currentIndex=(currentIndex+1)%currentCards.length;answerVisible=false;renderCard();}});
