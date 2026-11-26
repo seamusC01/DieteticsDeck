@@ -189,6 +189,22 @@ function updateAuthUI(user){
   $("auth-user-label").textContent=user?("Signed in as "+user.email):"";
   if(!user)setAuthStatus("Not signed in. Your progress is saved on this device.");
 }
+function mergeProgress(localProgress,cloudProgress){
+  const merged={...(cloudProgress||{})};
+  for(const [cardId,localRecord] of Object.entries(localProgress||{})){
+    const cloudRecord=merged[cardId];
+    if(!cloudRecord){
+      merged[cardId]=localRecord;
+      continue;
+    }
+    const localTime=Date.parse(localRecord?.reviewedAt||localRecord?.due||"")||0;
+    const cloudTime=Date.parse(cloudRecord?.reviewedAt||cloudRecord?.due||"")||0;
+    if(localTime>cloudTime||(localTime===cloudTime&&(Number(localRecord?.reviews)||0)>=(Number(cloudRecord?.reviews)||0))){
+      merged[cardId]=localRecord;
+    }
+  }
+  return merged;
+}
 async function syncProgress(){
   if(!supabaseClient||!signedInUser||syncInProgress)return;
   syncInProgress=true;
@@ -196,26 +212,25 @@ async function syncProgress(){
     const {data,error}=await supabaseClient.from("learner_progress")
       .select("progress").eq("user_id",signedInUser.id).maybeSingle();
     if(error)throw error;
-    const localHasProgress=Object.keys(progress).length>0;
-    if(data?.progress&&!localHasProgress){
-      progress=data.progress;
-      localStorage.setItem(storageKey,JSON.stringify(progress));
-      filterCards();
-      renderProgress();
-      setAuthStatus("Your saved progress has been loaded from your account.");
-    }else{
-      const {error:saveError}=await supabaseClient.from("learner_progress").upsert({
-        user_id:signedInUser.id,
-        progress,
-        updated_at:new Date().toISOString()
-      },{onConflict:"user_id"});
-      if(saveError)throw saveError;
-      setAuthStatus("Your progress is synced to your account.");
-    }
+
+    // Combine both devices' card records instead of allowing either device to overwrite the other.
+    progress=mergeProgress(progress,data?.progress||{});
+    localStorage.setItem(storageKey,JSON.stringify(progress));
+    filterCards();
+    renderProgress();
+
+    const {error:saveError}=await supabaseClient.from("learner_progress").upsert({
+      user_id:signedInUser.id,
+      progress,
+      updated_at:new Date().toISOString()
+    },{onConflict:"user_id"});
+    if(saveError)throw saveError;
+
     cloudSyncReady=true;
+    setAuthStatus("Your progress from this device and your account has been combined and synced.");
   }catch(error){
     console.error("Supabase progress sync failed:",error);
-    setAuthStatus("We couldn't sync your progress. Check that the learner_progress table and its security policies have been created in Supabase.");
+    setAuthStatus("We couldn't sync your progress. Please check the browser console for the Supabase error.");
   }finally{syncInProgress=false;}
 }
 async function saveProgressToCloud(){
