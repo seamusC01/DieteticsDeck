@@ -64,7 +64,28 @@ const cards = [
 {id:"MED11",level:"fresh",topic:"Medicines",q:"What is levothyroxine used for, and how can food affect its absorption?",a:"Levothyroxine is a synthetic thyroid hormone used to treat an underactive thyroid (hypothyroidism). Its absorption can be affected by food and some medicines or supplements, including calcium and iron preparations. It is usually taken consistently on an empty stomach, following the prescriber's or pharmacist's instructions. Dietitians should check supplement use and avoid giving advice that conflicts with the person's medication instructions.",hint:"Think about thyroid hormone replacement and the timing of food, calcium and iron.",reference:"NHS — Levothyroxine",referenceUrl:"https://www.nhs.uk/medicines/levothyroxine/"},
 {id:"MED12",level:"placement",topic:"Medicines",q:"Why might a dietitian need to consider fat-soluble vitamins in someone taking orlistat?",a:"Orlistat reduces the absorption of some dietary fat, which can also reduce absorption of fat-soluble vitamins A, D, E and K. A healthcare professional may recommend a multivitamin supplement, taken at a different time from orlistat in line with product guidance. Dietitians should consider dietary adequacy and follow current prescribing and product advice.",hint:"Think about which vitamins require dietary fat for absorption.",reference:"NHS — Orlistat",referenceUrl:"https://www.nhs.uk/medicines/orlistat/"},
 {id:"MED13",level:"placement",topic:"Medicines",q:"What is pancreatic enzyme replacement therapy (PERT), and when might it be prescribed?",a:"PERT provides digestive enzymes, usually in capsule form, for people who do not produce enough pancreatic enzymes (exocrine pancreatic insufficiency). It helps digest fat, protein and carbohydrate and is commonly prescribed in conditions such as chronic pancreatitis or after some pancreatic surgery. Enzymes are generally taken with meals and snacks, following the individual's prescribed instructions. Dietitians should ask about adherence, timing, symptoms and nutritional status.",hint:"Think about the role of pancreatic enzymes in digestion and absorption.",reference:"NHS — Pancreatin",referenceUrl:"https://www.nhs.uk/medicines/pancreatin/"},
-{id:"VIT05",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin A? (Think of vegetarian, vegan and meat-based options.)",a:"Vegetarian sources include eggs, cheese and dairy products, as well as orange and dark-green vegetables such as carrots, sweet potato, spinach and kale, which provide beta-carotene. Vegan sources include these beta-carotene-rich vegetables. Meat-based sources include liver, which is exceptionally rich in preformed vitamin A. Liver should not be eaten during pregnancy because of its high retinol content.",hint:"Try to name at least one suitable source for each dietary pattern."},
+{id:"VIT05",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin A? (Think of vegetarian, vegan and meat-based options.)",a:`
+<strong>Vegetarian sources</strong>
+<ul>
+  <li>Eggs</li>
+  <li>Cheese and other dairy products</li>
+  <li>Carrots, sweet potato, spinach and kale (these contain beta-carotene, which the body can convert into vitamin A)</li>
+</ul>
+
+<strong>Vegan sources</strong>
+<ul>
+  <li>Carrots and sweet potato</li>
+  <li>Dark-green leafy vegetables, such as spinach and kale</li>
+  <li>Other orange vegetables, which provide beta-carotene</li>
+</ul>
+
+<strong>Meat-based sources</strong>
+<ul>
+  <li>Liver is exceptionally rich in preformed vitamin A (retinol)</li>
+</ul>
+
+<strong>Dietetic note</strong>
+Liver and liver products should be avoided during pregnancy because they contain very high amounts of retinol.`,hint:"Try to name at least one suitable source for each dietary pattern."},
 {id:"VIT06",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin C? (Think of vegetarian, vegan and meat-based options.)",a:"Good sources are mainly fruit and vegetables, so many options suit vegetarian and vegan diets: peppers, citrus fruit, kiwi, berries, broccoli, Brussels sprouts and potatoes. Meat and fish are not usually important sources. Vitamin C also helps the absorption of non-haem iron from plant foods.",hint:"Try to name at least one suitable source for each dietary pattern."},
 {id:"VIT07",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin E? (Think of vegetarian, vegan and meat-based options.)",a:"Plant sources are particularly useful: sunflower seeds, almonds, hazelnuts, vegetable oils such as sunflower and rapeseed oil, and avocado. These suit vegetarian and vegan diets. Eggs and some fish provide smaller amounts; meat is not generally a major source.",hint:"Try to name at least one suitable source for each dietary pattern."},
 {id:"VIT08",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin K? (Think of vegetarian, vegan and meat-based options.)",a:"Green leafy vegetables are key sources, including kale, spinach, broccoli, cabbage and Brussels sprouts; these are suitable for vegetarian and vegan diets. Some vegetable oils also provide vitamin K. Eggs, cheese and meat can contribute smaller amounts, and vitamin K2 is found in some fermented foods and animal foods.",hint:"Try to name at least one suitable source for each dietary pattern."},
@@ -423,7 +444,7 @@ function renderCard(){
     </details>
   ` : "";
 
-  $("card-answer").innerHTML=`<p>${c.a}</p>${referenceHtml}`;
+  $("card-answer").innerHTML=`<div class="answer-content">${c.a}</div>${referenceHtml}`;
 
   $("card-kind").textContent=answerVisible?"ANSWER":"QUESTION";
   $("card-answer").classList.toggle("hidden",!answerVisible);
