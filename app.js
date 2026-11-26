@@ -67,7 +67,6 @@ const cards = [
 <ul>
   <li>Eggs</li>
   <li>Cheese and other dairy products</li>
-  <li>Carrots, sweet potato, spinach and kale (these contain beta-carotene, which the body can convert into vitamin A)</li>
 </ul>
 
 <strong>Vegan sources</strong>
@@ -79,11 +78,11 @@ const cards = [
 
 <strong>Meat-based sources</strong>
 <ul>
-  <li>Liver is exceptionally rich in preformed vitamin A (retinol)</li>
+    <li>Oily Fish</li>
+    <li>Liver</li>
 </ul>
 
-<strong>Dietetic note</strong>
-Liver and liver products should be avoided during pregnancy because they contain very high amounts of retinol.`},
+,reference:"NHS",referenceUrl:"https://www.nhs.uk/conditions/vitamins-and-minerals/vitamin-a/"},
 {id:"VIT06",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin C? (Think of vegetarian, vegan and meat-based options.)",a:"Good sources are mainly fruit and vegetables, so many options suit vegetarian and vegan diets: peppers, citrus fruit, kiwi, berries, broccoli, Brussels sprouts and potatoes. Meat and fish are not usually important sources. Vitamin C also helps the absorption of non-haem iron from plant foods."},
 {id:"VIT07",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin E? (Think of vegetarian, vegan and meat-based options.)",a:"Plant sources are particularly useful: sunflower seeds, almonds, hazelnuts, vegetable oils such as sunflower and rapeseed oil, and avocado. These suit vegetarian and vegan diets. Eggs and some fish provide smaller amounts; meat is not generally a major source."},
 {id:"VIT08",level:"fresh",topic:"Vitamins and minerals",q:"Which foods are good sources of vitamin K? (Think of vegetarian, vegan and meat-based options.)",a:"Green leafy vegetables are key sources, including kale, spinach, broccoli, cabbage and Brussels sprouts; these are suitable for vegetarian and vegan diets. Some vegetable oils also provide vitamin K. Eggs, cheese and meat can contribute smaller amounts, and vitamin K2 is found in some fermented foods and animal foods."},
