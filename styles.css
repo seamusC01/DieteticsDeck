@@ -211,3 +211,12 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .auth-form button{justify-self:start}
 .auth-signed-in{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}
 .account-status{font-size:.92rem;color:var(--muted,#64748b);margin-top:14px}
+
+/* Optional extended answers on flashcards */
+.answer-content ul,.extended-answer-content ul{padding-left:22px;margin:8px 0 12px}
+.answer-content li,.extended-answer-content li{margin-bottom:5px}
+.extended-answer-wrap{margin-top:16px;padding-top:12px;border-top:1px solid #dce7df}
+.extended-answer-toggle{border:0;background:transparent;color:#397761;font:inherit;font-size:13px;font-weight:750;padding:7px 0;cursor:pointer}
+.extended-answer-toggle:hover{text-decoration:underline}
+.extended-answer-content{margin-top:8px;padding:12px 14px;background:#fff;border:1px solid #dce7df;border-radius:8px;line-height:1.6}
+.extended-answer-content strong{color:var(--forest)}
