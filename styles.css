@@ -199,3 +199,15 @@ main{min-height:65vh}.view{display:none}.view.active{display:block}.hero{positio
 .topic-vitamins-and-minerals{background:#edf6ef;border-color:#d5e8d9}
 .topic-vitamins-and-minerals .topic-icon{background:#d9ecdd;color:#39734c}
 .topic-vitamins-and-minerals strong{color:#39734c}
+
+
+/* Optional Supabase account and cross-device progress sync */
+.account-panel{margin-top:24px}
+.account-intro{max-width:680px;color:var(--muted,#64748b);line-height:1.6}
+.auth-form{display:grid;gap:10px;max-width:440px;margin-top:18px}
+.auth-form label{font-weight:600}
+.auth-form input{width:100%;padding:12px 14px;border:1px solid var(--border,#d8e2dc);border-radius:10px;font:inherit;background:var(--surface,#fff);color:inherit}
+.auth-form input:focus{outline:2px solid var(--accent,#276b58);outline-offset:2px}
+.auth-form button{justify-self:start}
+.auth-signed-in{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}
+.account-status{font-size:.92rem;color:var(--muted,#64748b);margin-top:14px}
