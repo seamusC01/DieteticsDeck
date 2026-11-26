@@ -167,13 +167,118 @@ function renderSignposting(){
   </article>`).join(""):'<div class="resource-empty">No patient information matches that search. Try another word or topic.</div>';
 }
 const storageKey="dietetics-deck-progress-v1";
+const SUPABASE_URL="https://wllpwxhgflfhoqrvvaxb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_iANRcDJ9PdeZpcW2aXVJpQ_Mj5MioMI";
+const supabaseClient=window.supabase?.createClient
+  ? window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY)
+  : null;
 let progress=JSON.parse(localStorage.getItem(storageKey)||"{}");
 let currentCards=[...cards],currentIndex=0,answerVisible=false,quizOrder=[],quizIndex=0,quizScore=0,quizAnswered=false,selectedLevels=["fresh"],dueOnly=false;
 const $=id=>document.getElementById(id);
 $("signposting-search").addEventListener("input",renderSignposting);
 $("signposting-category").addEventListener("change",renderSignposting);
 
-function save(){localStorage.setItem(storageKey,JSON.stringify(progress));}
+let signedInUser=null;
+let cloudSyncReady=false;
+let syncInProgress=false;
+function setAuthStatus(message){const el=$("auth-status");if(el)el.textContent=message;}
+function updateAuthUI(user){
+  signedInUser=user||null;
+  $("auth-form").classList.toggle("hidden",!!user);
+  $("auth-signed-in").classList.toggle("hidden",!user);
+  $("auth-user-label").textContent=user?("Signed in as "+user.email):"";
+  if(!user)setAuthStatus("Not signed in. Your progress is saved on this device.");
+}
+async function syncProgress(){
+  if(!supabaseClient||!signedInUser||syncInProgress)return;
+  syncInProgress=true;
+  try{
+    const {data,error}=await supabaseClient.from("learner_progress")
+      .select("progress").eq("user_id",signedInUser.id).maybeSingle();
+    if(error)throw error;
+    const localHasProgress=Object.keys(progress).length>0;
+    if(data?.progress&&!localHasProgress){
+      progress=data.progress;
+      localStorage.setItem(storageKey,JSON.stringify(progress));
+      filterCards();
+      renderProgress();
+      setAuthStatus("Your saved progress has been loaded from your account.");
+    }else{
+      const {error:saveError}=await supabaseClient.from("learner_progress").upsert({
+        user_id:signedInUser.id,
+        progress,
+        updated_at:new Date().toISOString()
+      },{onConflict:"user_id"});
+      if(saveError)throw saveError;
+      setAuthStatus("Your progress is synced to your account.");
+    }
+    cloudSyncReady=true;
+  }catch(error){
+    console.error("Supabase progress sync failed:",error);
+    setAuthStatus("We couldn't sync your progress. Check that the learner_progress table and its security policies have been created in Supabase.");
+  }finally{syncInProgress=false;}
+}
+async function saveProgressToCloud(){
+  if(!supabaseClient||!signedInUser||!cloudSyncReady)return;
+  try{
+    const {error}=await supabaseClient.from("learner_progress").upsert({
+      user_id:signedInUser.id,
+      progress,
+      updated_at:new Date().toISOString()
+    },{onConflict:"user_id"});
+    if(error)throw error;
+    setAuthStatus("Progress saved and synced.");
+  }catch(error){
+    console.error("Supabase progress save failed:",error);
+    setAuthStatus("Your progress is saved on this device, but cloud syncing failed. Please try again later.");
+  }
+}
+async function initialiseSupabaseAuth(){
+  if(!supabaseClient){
+    setAuthStatus("Account sign-in is temporarily unavailable. Local progress saving still works.");
+    return;
+  }
+  $("auth-form").addEventListener("submit",async event=>{
+    event.preventDefault();
+    const email=$("auth-email").value.trim();
+    const button=$("auth-submit");
+    button.disabled=true;
+    setAuthStatus("Sending your sign-in link…");
+    try{
+      const {error}=await supabaseClient.auth.signInWithOtp({
+        email,
+        options:{emailRedirectTo:window.location.href.split("#")[0]}
+      });
+      if(error)throw error;
+      setAuthStatus("Check your email for your sign-in link. You can return to this page after opening it.");
+    }catch(error){
+      console.error("Supabase sign-in failed:",error);
+      setAuthStatus("We couldn't send the sign-in link. Please check the email address and try again.");
+    }finally{button.disabled=false;}
+  });
+  $("auth-signout").addEventListener("click",async()=>{
+    const {error}=await supabaseClient.auth.signOut();
+    if(error){setAuthStatus("We couldn't sign you out. Please try again.");return;}
+    cloudSyncReady=false;
+    updateAuthUI(null);
+  });
+  const {data,error}=await supabaseClient.auth.getSession();
+  if(error){setAuthStatus("We couldn't check your sign-in status. Local saving is still available.");return;}
+  if(data.session?.user){
+    updateAuthUI(data.session.user);
+    await syncProgress();
+  }
+  supabaseClient.auth.onAuthStateChange((event,session)=>{
+    if(event==="SIGNED_IN"&&session?.user){
+      updateAuthUI(session.user);
+      setTimeout(()=>syncProgress(),0);
+    }else if(event==="SIGNED_OUT"){
+      cloudSyncReady=false;
+      updateAuthUI(null);
+    }
+  });
+}
+function save(){localStorage.setItem(storageKey,JSON.stringify(progress));saveProgressToCloud();}
 function renderResources(){
   const term=$("resource-search").value.trim().toLowerCase();
   const category=$("resource-category").value;
@@ -370,4 +475,4 @@ function renderProgress(){const entries=Object.values(progress),reviewed=entries
 $("reset-progress").addEventListener("click",()=>{if(confirm("Reset all revision progress saved in this browser?")){progress={};save();renderProgress();}});
 $("level-toggle").addEventListener("click",()=>{const panel=$("level-options"),button=$("level-toggle"),expanded=button.getAttribute("aria-expanded")==="true";button.setAttribute("aria-expanded",String(!expanded));panel.classList.toggle("collapsed",expanded);button.innerHTML=expanded?'Show levels <span aria-hidden="true">⌄</span>':'Hide levels <span aria-hidden="true">⌃</span>';});
 document.querySelectorAll("[data-level]").forEach(button=>button.addEventListener("click",()=>{const level=button.dataset.level;if(selectedLevels.includes(level)){if(selectedLevels.length===1)return;selectedLevels=selectedLevels.filter(item=>item!==level);}else{selectedLevels=[...selectedLevels,level];}document.querySelectorAll("[data-level]").forEach(option=>{const selected=selectedLevels.includes(option.dataset.level);option.classList.toggle("selected",selected);option.setAttribute("aria-pressed",String(selected));});const labels=selectedLevels.map(item=>quizLevels[item].label);$("level-selection-note").textContent="Selected: "+labels.join(" + ")+". Your flashcards and quiz questions will include both selected levels.";filterCards();startQuiz();}));
-buildTopics();filterCards();startQuiz();renderResources();renderSignposting();
+buildTopics();filterCards();startQuiz();renderResources();renderSignposting();initialiseSupabaseAuth();
