@@ -372,6 +372,18 @@ function filterCards(){
     const dueB=progress[b.id]?.due?new Date(progress[b.id].due).getTime():0;
     return dueA-dueB;
   });
+
+  // Alternate unseen cards with cards marked Again or Hard, starting with an unseen card.
+  const unseenCards=currentCards.filter(c=>!progress[c.id]);
+  const reviewCards=currentCards.filter(c=>["again","hard"].includes(progress[c.id]?.rating));
+  const otherCards=currentCards.filter(c=>progress[c.id]&&!["again","hard"].includes(progress[c.id]?.rating));
+  const balancedCards=[];
+  const reviewQueue=[...reviewCards];
+  unseenCards.forEach(card=>{
+    balancedCards.push(card);
+    if(reviewQueue.length)balancedCards.push(reviewQueue.shift());
+  });
+  currentCards=[...balancedCards,...reviewQueue,...otherCards];
   currentIndex=0;answerVisible=false;renderCard();
 }
 function startRevision(){
